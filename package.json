@@ -1,0 +1,23 @@
+{
+  "name": "fairbinden_slack_express",
+  "version": "1.0.0",
+  "description": "Send the daily fairbinden lunch info to Slack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hiroyone/fairbinden_slack_express.git"
+  },
+  "keywords": [
+    "fairbinden",
+    "express"
+  ],
+  "author": "hiroyone",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hiroyone/fairbinden_slack_express/issues"
+  },
+  "homepage": "https://github.com/hiroyone/fairbinden_slack_express#readme"
+}
