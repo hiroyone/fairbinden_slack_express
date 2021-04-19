@@ -2,6 +2,7 @@
  * Post the message to Slack channel by webhook
  * @param {string} webhookURL - Slack webhook URL
  * @param {JSON} payload - the body message to be sent 
+ * @method POST
  * @return {boolean} True if the post request is successful 
  */
 function sendToSlack(webhookURL: string, payload: JSON): boolean {
