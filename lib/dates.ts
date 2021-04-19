@@ -1,6 +1,6 @@
 /**
- * Returns the current Japanese Standard Time
- * @return {string} Japanese Standard Time
+ * Returns the current datime in Japanese Standard Time
+ * @return {string} the current datime in Japanese Standard Time
  */
 function nowToday(): string {
 	// ex) return "4/19/2021, 8:53:49 AM"
@@ -14,7 +14,7 @@ function nowToday(): string {
 
 /**
  * Returns if it is a weekday or not
- * @param {string} dateTime - Japanese Standard Time
+ * @param {string} dateTime
  * @return {boolean} true if it is weekday, else not 
  */
 function checkWkday (dateTime: string): boolean {
@@ -31,7 +31,7 @@ function checkWkday (dateTime: string): boolean {
 
 /**
  * Returns today's date in Japanese language
- * @param {string} dateTime - Japanese Standard Time
+ * @param {string} dateTime
  * @return {string} today's date in Japanese language
  */
 function getJapaneseDate(dateTime: string): string {
