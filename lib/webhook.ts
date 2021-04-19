@@ -4,7 +4,7 @@
  * @param {JSON} payload - the body message to be sent 
  * @return {boolean} True if the post request is successful 
  */
-function sendToSlack(webhookURL string, payload: JSON): boolean {
+function sendToSlack(webhookURL: string, payload: JSON): boolean {
 // 	request := gorequest.New().Proxy(proxy)
 // 	resp, _, err := request.
 // 		Post(webhookUrl).
