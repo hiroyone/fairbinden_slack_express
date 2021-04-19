@@ -14,10 +14,10 @@ function nowToday(): string {
 
 /**
  * Returns if it is a weekday or not
- * @param {string} Japanese Standard Time
+ * @param {string} dateTime - Japanese Standard Time
  * @return {boolean} true if it is weekday, else not 
  */
-function checkWkday (now: string): boolean {
+function checkWkday (dateTime: string): boolean {
 	// default
 	x = false
 	// if now.Weekday() >= 1 && now.Weekday() <= 5 {
@@ -30,11 +30,11 @@ function checkWkday (now: string): boolean {
 } 
 
 /**
- * Returns today's date in Japan
- * @param {string} Japanese Standard Time
- * @return {string} today's date in Japan
+ * Returns today's date in Japanese language
+ * @param {string} dateTime - Japanese Standard Time
+ * @return {string} today's date in Japanese language
  */
-function getJapaneseDate(now: string): string {
+function getJapaneseDate(dateTime: string): string {
 	// yobiArray := [7]string{"日", "月", "火", "水", "木", "金", "土"}
 	// yobi := yobiArray[now.Weekday()] // => 木
 	// // date = '{}月{}日({})'.format(now.month,now.day, yobi)
