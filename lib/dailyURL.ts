@@ -1,3 +1,9 @@
+/**
+ * Returns 
+ *
+ * @return {string} the today's url for fairbinden lunch
+ */
+
 // /*
 // Get a today's url for fairbinden lunch
 // */

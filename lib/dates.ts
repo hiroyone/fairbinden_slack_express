@@ -1,6 +1,5 @@
 /**
  * Returns the current Japanese Standard Time
- *
  * @return {string} Japanese Standard Time
  */
 function nowToday(): string {
@@ -14,7 +13,7 @@ function nowToday(): string {
 }
 
 /**
- * 
+ * Returns if it is a weekday or not
  * @param {string} Japanese Standard Time
  * @return {boolean} true if it is weekday, else not 
  */
@@ -31,9 +30,9 @@ function checkWkday (now: string): boolean {
 } 
 
 /**
- * 
+ * Returns today's date in Japan
  * @param {string} Japanese Standard Time
- * @return {string} today's date in Japanese
+ * @return {string} today's date in Japan
  */
 function getJapaneseDate(now: string): string {
 	// yobiArray := [7]string{"日", "月", "火", "水", "木", "金", "土"}
