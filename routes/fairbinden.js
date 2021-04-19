@@ -8,6 +8,14 @@ router.get("/", function (req, res, next) {
 
 module.exports = router;
 
+/**
+ * Post the content info scraped from the website to Slack channel by webhook for a specified date
+ * @param {string} webhookURL - Slack Channel for fairbinden
+ * @param {string} websiteURL - URL for the website
+ * @param {string} dateTime - datetime for which to get the content info
+ * @return {boolean} True if the post request is successful
+ */
+
 // /*
 // SendSlack Sends a scraped message to Slack
 // */
