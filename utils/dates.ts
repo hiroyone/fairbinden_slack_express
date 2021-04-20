@@ -6,7 +6,6 @@
  * @return {string} the current datime in Japanese Standard Time
  */
 function nowToday(): string {
-  // ex) return "4/19/2021, 8:53:49 AM"
   let now = new Date();
   let timeOption = { timeZone: "Asia/Tokyo" };
   let jpn_now = now.toLocaleString("ja-JP-u-ca-japanese", timeOption);
