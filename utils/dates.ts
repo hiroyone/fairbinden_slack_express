@@ -11,9 +11,6 @@ function nowToday(): string {
   let timeOption = { timeZone: "Asia/Tokyo" };
   let jpn_now = now.toLocaleString("ja-JP-u-ca-japanese", timeOption);
   // Info.Println("The current time is: ", jpn_now.String())
-  // 	if jpn_now.Hour() < 11 {
-  // 		jpn_now = jpn_now.AddDate(0, 0, -1)
-  // 	}
   return jpn_now;
 }
 
