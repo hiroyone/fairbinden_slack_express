@@ -1,5 +1,5 @@
 /**
- * Returns the current datime in Japanese Standard Time
+ * Returns the current datime in ISOFormat
  * @example
  * // returns "4/19/2021, 8:53:49 AM"
  * nowToday();
@@ -7,11 +7,9 @@
  */
 function nowToday(): string {
   let now = new Date();
-  let timeOption = { timeZone: "Asia/Tokyo" };
-  let jpn_now = now.toLocaleString("en-GB", timeOption);
+  let nowISO = now.toISOString();
   // Info.Println("The current time is: ", jpn_now.String())
-  return jpn_now;
-}
+  return nowISO
 
 /**
  * Returns if it is a weekday or not
