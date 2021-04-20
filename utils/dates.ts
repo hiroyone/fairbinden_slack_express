@@ -1,5 +1,8 @@
 /**
  * Returns the current datime in Japanese Standard Time
+ * @example
+ * // returns "4/19/2021, 8:53:49 AM"
+ * nowToday();
  * @return {string} the current datime in Japanese Standard Time
  */
 function nowToday(): string {
