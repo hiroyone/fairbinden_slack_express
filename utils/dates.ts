@@ -7,7 +7,9 @@
  */
 function nowToday(): string {
   // ex) return "4/19/2021, 8:53:49 AM"
-  let jpn_now = new Date().toLocaleString({ timeZone: "Asia/Tokyo" });
+  let now = new Date();
+  let timeOption = { timeZone: "Asia/Tokyo" };
+  let jpn_now = now.toLocaleString("ja-JP-u-ca-japanese", timeOption);
   // Info.Println("The current time is: ", jpn_now.String())
   // 	if jpn_now.Hour() < 11 {
   // 		jpn_now = jpn_now.AddDate(0, 0, -1)
