@@ -8,7 +8,7 @@
 function nowToday(): string {
   let now = new Date();
   let timeOption = { timeZone: "Asia/Tokyo" };
-  let jpn_now = now.toLocaleString("ja-JP-u-ca-japanese", timeOption);
+  let jpn_now = now.toLocaleString("en-GB", timeOption);
   // Info.Println("The current time is: ", jpn_now.String())
   return jpn_now;
 }
