@@ -20,8 +20,6 @@ function nowToday(): string {
  */
 function checkWkday(dateTime: string): boolean {
   // default
-  x = false;
-  // if now.Weekday() >= 1 && now.Weekday() <= 5 {
   let weekdayFlag = false;
   let dateObj = new Date(dateTime);
   if (dateObj.getDay() >= 1 && dateObj.getDay() <= 5) {
