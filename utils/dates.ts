@@ -20,6 +20,7 @@ function nowToday(): string {
 function checkWkday(dateTime: string): boolean {
   // default
   let weekdayFlag = false;
+  // Create a date object
   let dateObj = new Date(dateTime);
   if (dateObj.getDay() >= 1 && dateObj.getDay() <= 5) {
     weekdayFlag = true;
