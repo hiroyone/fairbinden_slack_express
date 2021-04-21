@@ -33,15 +33,31 @@ function checkWkday(dateTime: string): boolean {
 
 /**
  * Returns today's date in Japanese language
+ * @example
+ * // returns "2021年04月01日(木)"
  * @param {string} dateTime
  * @return {string} today's date in Japanese language
  */
 function getJapaneseDate(dateTime: string): string {
-  // yobiArray := [7]string{"日", "月", "火", "水", "木", "金", "土"}
-  // yobi := yobiArray[now.Weekday()] // => 木
+  // Create a date object for convenience
+  let dateObj = new Date(dateTime);
+  let daysJpn: string[];
+  daysJpn = ["日", "月", "火", "水", "木", "金", "土"];
+  let dayJpn = daysJpn[dateObj.getDay()]; // => 木
+
   // // date = '{}月{}日({})'.format(now.month,now.day, yobi)
   // // logger.info("Today's date is {}".format(date))
-  // date := fmt.Sprintf("%d年%d月%d日(%s)", now.Year(), now.Month(), now.Day(), yobi)
+  let year = dateObj.getFullYear();
+  let month = dateObj.getMonth();
+  let day = dateObj.getDay();
+  let dateJpn = `${year}年${month}月${day}日(${dayJpn})`;
   // fmt.Println(date)
-  return "2021年04月01日(木)";
+  return dateJpn;
 }
+
+let dateTime = nowToday();
+let dateFlag = checkWkday(dateTime);
+let dateJpn = getJapaneseDate(dateTime);
+
+console.log(dateFlag);
+console.log(dateJpn);
