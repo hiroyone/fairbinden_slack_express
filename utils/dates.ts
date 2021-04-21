@@ -9,7 +9,8 @@ function nowToday(): string {
   let now = new Date();
   let nowISO = now.toISOString();
   // Info.Println("The current time is: ", jpn_now.String())
-  return nowISO
+  return nowISO;
+}
 
 /**
  * Returns if it is a weekday or not
