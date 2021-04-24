@@ -7,15 +7,17 @@ const zeroPad = (num: number, places: number) =>
  * @example
  * // returns "http://xn--jvrr89ebqs6yg.tokyo/2021/04/19/"
  * getDailyURL(dateTime, "https", "xn--jvrr89ebqs6yg.tokyo");
- * @param {string} datetime
+ * @param {Date} datetime
+ * @param {"http" | "https"}} protocol
+ * @param {string} hostname
  * @return {URL} the daily URL for the specified date
  */
 function getDailyURL(
   datetime: Date,
   protocol: "http" | "https",
-  domain: string
+  hostname: string
 ): URL {
-  // Define an interface for protocol and domain
+  // Define an interface for protocol and hostname
   let year = datetime.getFullYear();
   let month = datetime.getMonth();
   let day = datetime.getDay();
@@ -28,14 +30,14 @@ function getDailyURL(
   let dailyURL = new URL(
     protocol +
       "://" +
-      domain +
+      hostname +
       "/" +
       year +
       "/" +
       zeroPadMonth +
       "/" +
       zeroPadDay +
-	  "/"
+      "/"
   );
   // 	Info.Println("Today's URL is", dayURL)
   return dailyURL;
