@@ -34,7 +34,8 @@ function getDailyURL(
       "/" +
       zeroPadMonth +
       "/" +
-      zeroPadDay
+      zeroPadDay +
+	  "/"
   );
   // 	Info.Println("Today's URL is", dayURL)
   return dailyURL;
