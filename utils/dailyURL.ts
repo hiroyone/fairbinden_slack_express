@@ -8,13 +8,13 @@ const zeroPad = (num: number, places: number) =>
  * // returns "http://xn--jvrr89ebqs6yg.tokyo/2021/04/19/"
  * getDailyURL(dateTime, "https", "xn--jvrr89ebqs6yg.tokyo");
  * @param {string} datetime
- * @return {string} the daily URL for the specified date
+ * @return {URL} the daily URL for the specified date
  */
 function getDailyURL(
   datetime: Date,
   protocol: "http" | "https",
   domain: string
-): string {
+): URL {
   // Define an interface for protocol and domain
   let year = datetime.getFullYear();
   let month = datetime.getMonth();
@@ -25,10 +25,19 @@ function getDailyURL(
   let zeroPadDay = zeroPad(day, 2);
 
   // URL construction
-  let URL = protocol + "://" + domain;
-  let dayURL = URL + "/" + year + "/" + zeroPadMonth + "/" + zeroPadDay + "/";
+  let dailyURL = new URL(
+    protocol +
+      "://" +
+      domain +
+      "/" +
+      year +
+      "/" +
+      zeroPadMonth +
+      "/" +
+      zeroPadDay
+  );
   // 	Info.Println("Today's URL is", dayURL)
-  return dayURL;
+  return dailyURL;
 }
 
 /**
