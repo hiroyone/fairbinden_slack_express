@@ -50,10 +50,3 @@ function getJapaneseDate(dateTime: Date): string {
   // fmt.Println(date)
   return dateJpn;
 }
-
-/* Test Script */
-// let dateTime = nowToday();
-// let dateFlag = checkWkday(dateTime);
-// let dateJpn = getJapaneseDate(dateTime);
-// console.log(dateFlag);
-// console.log(dateJpn);
