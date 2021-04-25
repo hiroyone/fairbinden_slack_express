@@ -5,7 +5,7 @@ const zeroPad = (num: number, places: number) =>
 /**
  * Returns the daily URL for the specified date
  * @example
- * // returns "http://xn--jvrr89ebqs6yg.tokyo/2021/04/19/"
+ * returns new URL("https://xn--jvrr89ebqs6yg.tokyo/2021/04/19/")
  * getDailyURL(dateTime, "https", "xn--jvrr89ebqs6yg.tokyo");
  * @param {Date} datetime
  * @param {"http" | "https"}} protocol
