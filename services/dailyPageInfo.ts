@@ -1,3 +1,6 @@
+import { nowToday, checkWkday, getJapaneseDate } from "../utils/dates";
+import { getDailyURL, getDailyMenuURL } from "../utils/dailyURL";
+
 /**
  * Post the content info scraped from the website to Slack channel by webhook for a specified date
  * @param {string} webhookURL - Slack Channel
@@ -8,9 +11,23 @@
 
 function sendDailyPageInfoToSlack(
   webhookURL: string,
-  websiteURL: string,
-  dateTime: string
+  websiteURL: string
+  // TO do: Use datetime
+  // dateTime: Date
 ): boolean {
+  const dateTime = nowToday();
+  const dateFlag = checkWkday(dateTime);
+  const dateJpn = getJapaneseDate(dateTime);
+  const dailyURL = getDailyURL(dateTime, "https", "xn--jvrr89ebqs6yg.tokyo");
+  const dailyMenuURL = getDailyMenuURL(
+    dailyURL,
+    "#archive_post_list > li > div > h3 > a"
+  );
+
+  console.log(dateFlag);
+  console.log(dateJpn);
+  console.log(dailyURL.href);
+  console.log(dailyMenuURL);
   return true;
 }
 
