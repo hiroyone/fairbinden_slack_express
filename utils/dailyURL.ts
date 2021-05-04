@@ -1,3 +1,5 @@
+import axios from "axios";
+
 // Helper function to add leading zero padding to a number
 const zeroPad = (num: number, places: number) =>
   String(num).padStart(places, "0");
@@ -18,16 +20,16 @@ function getDailyURL(
   hostname: string
 ): URL {
   // Define an interface for protocol and hostname
-  let year = datetime.getFullYear();
-  let month = datetime.getMonth();
-  let day = datetime.getDay();
+  const year = datetime.getFullYear();
+  const month = datetime.getMonth();
+  const day = datetime.getDay();
 
   // Add leading zero to numbers
-  let zeroPadMonth = zeroPad(month, 2);
-  let zeroPadDay = zeroPad(day, 2);
+  const zeroPadMonth = zeroPad(month, 2);
+  const zeroPadDay = zeroPad(day, 2);
 
   // URL construction
-  let dailyURL = new URL(
+  const dailyURL = new URL(
     protocol +
       "://" +
       hostname +
@@ -45,48 +47,37 @@ function getDailyURL(
 
 /**
  * Returns the menu URL for the specified date
- * @param {string} datetime
- * @return {string} the menu URL for the specified date
+ * @example
+ * // returns new URL("https://xn--jvrr89ebqs6yg.tokyo/2021/04/19/%e8%b1%9a%e8%82%89%e3%81%ae%e3%82%ba%e3%83%83%e3%82%ad%e3%83%bc%e3%83%8b%e5%b7%bb%e3%81%8d%e3%83%95%e3%83%a9%e3%82%a4-6/")
+ * getDailyMenuURL(new URL("https://xn--jvrr89ebqs6yg.tokyo/2021/04/19/"), "#archive_post_list > li > div > h3 > a");
+ * @param {URL} dailyURL
+ * @param {string} selectors
+ * @return {URL} the menu URL for the specified date
  */
-function getDailyMenuURL(datetime: string): string {
-  // var dayMenuURL string
-  // url, _ := url.Parse(dayURL)
-  // domain := url.Host
-  // fmt.Println("Allowed Domain:", domain)
+function getDailyMenuURL(dailyURL: URL, selectors: string): URL {
+  axios.get(dailyURL.href).then((response) => {
+    console.log(response);
+  });
 
-  // c := colly.NewCollector(
-  // 	// Restrict crawling to specific domains
-  // 	colly.AllowedDomains(domain),
-  // 	// Allow visiting the same page multiple times
-  // 	colly.AllowURLRevisit(),
-  // 	// Allow crawling to be done in parallel / async
-  // 	colly.Async(false),
-  // )
-  // c.Limit(&colly.LimitRule{
-  // 	// Filter domains affected by this rule
-  // 	DomainGlob: domain + "/*",
-  // 	// Set a delay between requests to these domains
-  // 	Delay: 1 * time.Second,
-  // 	// Add an additional random delay
-  // 	RandomDelay: 1 * time.Second,
-  // })
-
-  // c.OnHTML("h3.title", func(e *colly.HTMLElement) {
-  // 	// Extract the link from the anchor HTML element
-  // 	link := e.ChildAttr("a", "href")
-  // 	// Info.Println(link)
-  // 	// Tell the collector to visit the link
-  // 	if strings.Contains(link, dayURL) {
-  // 		// Info.Println("Found daily URL link: ", e.Request.AbsoluteURL(link))
-  // 		// Info.Println("Found text: ", e.Text)
-  // 		dayMenuURL = link
-  // 	}
-  // })
-  // c.Visit(dayURL)
+  const dailyMenuURLEl = document.querySelector(selectors);
+  let dailyMenuURLStr;
+  if (dailyMenuURLEl === null) {
+    throw new Error("The element does not exists for the given selectors!");
+  } else {
+    dailyMenuURLStr = dailyMenuURLEl.getAttribute("href");
+  }
+  let dailyMenuURL;
+  if (dailyMenuURLStr === null) {
+    throw new Error("The href does not exists for the given element");
+  } else {
+    dailyMenuURL = new URL(dailyMenuURLStr);
+  }
   // Info.Println("Daily Menu URL is ", dayMenuURL)
-  // if dayMenuURL != "" {
-  // 	return &dayMenuURL, nil
-  // }
-  // return nil, errors.New("No lunch menu URL was found")
-  return "http://xn--jvrr89ebqs6yg.tokyo/2021/04/19/%e8%b1%9a%e8%82%89%e3%81%ae%e3%82%ba%e3%83%83%e3%82%ad%e3%83%bc%e3%83%8b%e5%b7%bb%e3%81%8d%e3%83%95%e3%83%a9%e3%82%a4-6/";
+  return dailyMenuURL;
 }
+
+// To do
+// 1. Interactive Dev
+// 2. Error handling
+// 3. Add proper scraping lib
+// 4. Promise/then/Fetch/Axios
