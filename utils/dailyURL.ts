@@ -14,7 +14,7 @@ const zeroPad = (num: number, places: number) =>
  * @param {string} hostname
  * @return {URL} the daily URL for the specified date
  */
-function getDailyURL(
+export function getDailyURL(
   datetime: Date,
   protocol: "http" | "https",
   hostname: string
@@ -54,7 +54,7 @@ function getDailyURL(
  * @param {string} selectors
  * @return {URL} the menu URL for the specified date
  */
-function getDailyMenuURL(dailyURL: URL, selectors: string): URL {
+export function getDailyMenuURL(dailyURL: URL, selectors: string): URL {
   axios.get(dailyURL.href).then((response) => {
     console.log(response);
   });

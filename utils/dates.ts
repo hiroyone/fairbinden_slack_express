@@ -5,7 +5,7 @@
  * nowToday();
  * @return {Date} the current datime in Japanese Standard Time
  */
-function nowToday(): Date {
+export function nowToday(): Date {
   let now = new Date();
   // Info.Println("The current time is: ", jpn_now.String())
   return now;
@@ -16,7 +16,7 @@ function nowToday(): Date {
  * @param {Date} dateTime
  * @return {boolean} true if it is weekday, else not
  */
-function checkWkday(dateTime: Date): boolean {
+export function checkWkday(dateTime: Date): boolean {
   // default
   let weekdayFlag = false;
   // Create a date object
@@ -36,7 +36,7 @@ function checkWkday(dateTime: Date): boolean {
  * @param {Date} dateTime
  * @return {string} today's date in Japanese language
  */
-function getJapaneseDate(dateTime: Date): string {
+export function getJapaneseDate(dateTime: Date): string {
   // Create a date object for convenience
   let daysJpn: string[];
   daysJpn = ["日", "月", "火", "水", "木", "金", "土"];

@@ -1,15 +1,14 @@
 import { MiddlewareFn } from "../interfaces/middlewareInterface";
 
 const express = require("express");
-const { fairbinden } = require("../controllers");
+const fairbindenController = require("../controllers/fairbindenController");
 
 const router = express.Router();
 
-/* GET users listing. */
-router.get("/", <MiddlewareFn>function (req, res, next) {
+/* Post a fairbinden request. */
+router.post("/", <MiddlewareFn>function (req, res, next) {
+  fairbindenController.sendFairbindenLunchMenuToSlack(req, res, next);
   res.send("success");
 });
-
-router.post("/", fairbinden.sendToSlack);
 
 module.exports = router;
