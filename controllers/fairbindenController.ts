@@ -1,4 +1,4 @@
-const { dailyPageInfo } = require("../services");
+const dailyPageInfo = require("../services/dailyPageInfo");
 import { MiddlewareFn } from "../interfaces/middlewareInterface";
 
 /*
