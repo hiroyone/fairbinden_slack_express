@@ -6,7 +6,7 @@
  * @return {Date} the current datime in Japanese Standard Time
  */
 export function nowToday(): Date {
-  let now = new Date();
+  const now = new Date();
   // Info.Println("The current time is: ", jpn_now.String())
   return now;
 }
@@ -40,13 +40,13 @@ export function getJapaneseDate(dateTime: Date): string {
   // Create a date object for convenience
   let daysJpn: string[];
   daysJpn = ["日", "月", "火", "水", "木", "金", "土"];
-  let dayJpn = daysJpn[dateTime.getDay()]; // => 木
+  const dayJpn = daysJpn[dateTime.getDay()]; // => 木
 
   // // logger.info("Today's date is {}".format(date))
-  let year = dateTime.getFullYear();
-  let month = dateTime.getMonth();
-  let day = dateTime.getDay();
-  let dateJpn = `${year}年${month}月${day}日(${dayJpn})`;
+  const year = dateTime.getFullYear();
+  const month = dateTime.getMonth();
+  const day = dateTime.getDay();
+  const dateJpn = `${year}年${month}月${day}日(${dayJpn})`;
   // fmt.Println(date)
   return dateJpn;
 }
