@@ -1,13 +1,17 @@
-const dailyPageInfo = require("../services/dailyPageInfo");
+import { sendDailyPageInfoToSlack } from "../services/dailyPageInfo";
 import { MiddlewareFn } from "../interfaces/middlewareInterface";
 
 /*
  * call other imported services, or same service but different functions here if you need to
  */
-const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (req, res, next) => {
+export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
+  req,
+  res,
+  next
+) => {
   const { user, content } = req.body;
   try {
-    await dailyPageInfo.sendDailyPageInfoToSlack(user, content);
+    await sendDailyPageInfoToSlack(user, content);
     // other service call (or same service, different function can go here)
     // i.e. - await generateBlogpostPreview()
     res.sendStatus(201);
@@ -16,8 +20,4 @@ const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (req, res, next) => {
     console.log(e.message);
     res.sendStatus(500) && next(e);
   }
-};
-
-module.exports = {
-  sendFairbindenLunchMenuToSlack,
 };

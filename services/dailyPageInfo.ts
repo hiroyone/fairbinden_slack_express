@@ -9,7 +9,7 @@ import { getDailyURL, getDailyMenuURL } from "../utils/dailyURL";
  * @return {boolean} True if the post request is successful
  */
 
-function sendDailyPageInfoToSlack(
+export function sendDailyPageInfoToSlack(
   webhookURL: string,
   websiteURL: string
   // TO do: Use datetime
