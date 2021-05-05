@@ -38,7 +38,7 @@ export function checkWkday(dateTime: Date): boolean {
  */
 export function getJapaneseDate(dateTime: Date): string {
   // Create a date object for convenience
-  const daysJpn = ["日", "月", "火", "水", "木", "金", "土"];
+  const daysJpn = ["日", "月", "火", "水", "木", "金", "土", "先"];
   const dayJpn = daysJpn[dateTime.getDay()]; // => 木
 
   // // logger.info("Today's date is {}".format(date))
