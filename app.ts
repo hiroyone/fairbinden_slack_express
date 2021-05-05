@@ -4,8 +4,9 @@ import path = require("path");
 import cookieParser = require("cookie-parser");
 import logger = require("morgan");
 import { fairbnRouter } from "./routes/fairbindenRoute";
+import { HttpException } from "./interfaces/middlewareInterface";
 
-const app = express();
+export const app = express();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -26,7 +27,7 @@ app.use(function (req, res, next) {
 
 // error handler
 app.use(function (
-  err: Error,
+  err: HttpException,
   req: express.Request,
   res: express.Response,
   next: express.NextFunction
@@ -39,5 +40,3 @@ app.use(function (
   res.status(err.status || 500);
   res.render("error");
 });
-
-module.exports = app;

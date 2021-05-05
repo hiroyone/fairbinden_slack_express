@@ -5,3 +5,8 @@ export type MiddlewareFn = (
   res: Response,
   next: NextFunction
 ) => void;
+
+export interface HttpException extends Error {
+  status: number;
+  message: string;
+}
