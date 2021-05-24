@@ -1,4 +1,5 @@
 import axios from "axios";
+import { JSDOM } from "jsdom";
 
 // Helper function to add leading zero padding to a number
 const zeroPad = (num: number, places: number) =>
@@ -54,30 +55,34 @@ export function getDailyURL(
  * @param {string} selectors
  * @return {URL} the menu URL for the specified date
  */
-export function getDailyMenuURL(dailyURL: URL, selectors: string): URL {
-  axios.get(dailyURL.href).then((response) => {
-    console.log(response);
-  });
+export async function getDailyMenuURL(
+  dailyURL: URL,
+  selectors: string
+): Promise<void | URL> {
+  try {
+    const response = await axios.get(dailyURL.href);
+    const dailyMenuPageHtml = new JSDOM(response.data);
 
-  const dailyMenuURLEl = document.querySelector(selectors);
-  let dailyMenuURLStr;
-  if (dailyMenuURLEl === null) {
-    throw new Error("The element does not exists for the given selectors!");
-  } else {
-    dailyMenuURLStr = dailyMenuURLEl.getAttribute("href");
+    const dailyMenuURLEl = dailyMenuPageHtml.window.document.querySelector(
+      selectors
+    );
+
+    let dailyMenuURLStr: string | null;
+    if (dailyMenuURLEl === null) {
+      throw new Error("The element does not exists for the given selectors!");
+    } else {
+      dailyMenuURLStr = dailyMenuURLEl.getAttribute("href");
+    }
+
+    let dailyMenuURL: URL;
+    if (dailyMenuURLStr === null) {
+      throw new Error("The href does not exists for the given element");
+    } else {
+      dailyMenuURL = new URL(dailyMenuURLStr);
+    }
+    // Info.Println("Daily Menu URL is ", dayMenuURL)
+    return dailyMenuURL;
+  } catch (err) {
+    alert(err);
   }
-  let dailyMenuURL;
-  if (dailyMenuURLStr === null) {
-    throw new Error("The href does not exists for the given element");
-  } else {
-    dailyMenuURL = new URL(dailyMenuURLStr);
-  }
-  // Info.Println("Daily Menu URL is ", dayMenuURL)
-  return dailyMenuURL;
 }
-
-// To do
-// 1. Interactive Dev
-// 2. Error handling
-// 3. Add proper scraping lib
-// 4. Promise/then/Fetch/Axios

@@ -9,27 +9,33 @@ import { getDailyURL, getDailyMenuURL } from "../utils/dailyURL";
  * @return {boolean} True if the post request is successful
  */
 
-export function sendDailyPageInfoToSlack(
+export const sendDailyPageInfoToSlack = async (
   webhookURL: string,
   websiteURL: string
   // TO do: Use datetime
   // dateTime: Date
-): boolean {
-  const dateTime = nowToday();
-  const dateFlag = checkWkday(dateTime);
-  const dateJpn = getJapaneseDate(dateTime);
-  const dailyURL = getDailyURL(dateTime, "https", "xn--jvrr89ebqs6yg.tokyo");
-  const dailyMenuURL = getDailyMenuURL(
-    dailyURL,
-    "#archive_post_list > li > div > h3 > a"
-  );
+): Promise<boolean> => {
+  try {
+    // const dateTime = nowToday();
+    const dateTime = new Date("2021-04-05T11:10+09:00");
+    const dateFlag = checkWkday(dateTime);
+    const dateJpn = getJapaneseDate(dateTime);
+    const dailyURL = getDailyURL(dateTime, "https", "xn--jvrr89ebqs6yg.tokyo");
 
-  console.log(dateFlag);
-  console.log(dateJpn);
-  console.log(dailyURL.href);
-  console.log(dailyMenuURL);
-  return true;
-}
+    const dailyMenuURL = await getDailyMenuURL(
+      dailyURL,
+      "#archive_post_list > li > div > h3 > a"
+    );
+    console.log(dateFlag);
+    console.log(dateJpn);
+    console.log(dailyURL.href);
+    console.log(dailyMenuURL);
+    return true;
+  } catch (err) {
+    alert(err);
+    return false;
+  }
+};
 
 module.exports = {
   sendDailyPageInfoToSlack,
