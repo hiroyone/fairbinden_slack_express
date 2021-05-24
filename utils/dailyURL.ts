@@ -21,12 +21,12 @@ export function getDailyURL(
 ): URL {
   // Define an interface for protocol and hostname
   const year = datetime.getFullYear();
-  const month = datetime.getMonth();
-  const day = datetime.getDay();
+  const month = datetime.getMonth() + 1;
+  const date = datetime.getDate();
 
   // Add leading zero to numbers
   const zeroPadMonth = zeroPad(month, 2);
-  const zeroPadDay = zeroPad(day, 2);
+  const zeroPadDay = zeroPad(date, 2);
 
   // URL construction
   const dailyURL = new URL(

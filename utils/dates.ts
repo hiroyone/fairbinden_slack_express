@@ -43,9 +43,9 @@ export function getJapaneseDate(dateTime: Date): string {
 
   // // logger.info("Today's date is {}".format(date))
   const year = dateTime.getFullYear();
-  const month = dateTime.getMonth();
-  const day = dateTime.getDay();
-  const dateJpn = `${year}年${month}月${day}日(${dayJpn})`;
+  const month = dateTime.getMonth() + 1;
+  const date = dateTime.getDate();
+  const dateJpn = `${year}年${month}月${date}日(${dayJpn})`;
   // fmt.Println(date)
   return dateJpn;
 }
