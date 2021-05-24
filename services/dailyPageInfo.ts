@@ -15,7 +15,8 @@ export function sendDailyPageInfoToSlack(
   // TO do: Use datetime
   // dateTime: Date
 ): boolean {
-  const dateTime = nowToday();
+  // const dateTime = nowToday();
+  const dateTime = new Date("2021-04-05T11:10+09:00");
   const dateFlag = checkWkday(dateTime);
   const dateJpn = getJapaneseDate(dateTime);
   const dailyURL = getDailyURL(dateTime, "https", "xn--jvrr89ebqs6yg.tokyo");

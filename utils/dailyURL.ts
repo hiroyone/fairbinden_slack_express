@@ -1,4 +1,5 @@
 import axios from "axios";
+import { JSDOM } from "jsdom";
 
 // Helper function to add leading zero padding to a number
 const zeroPad = (num: number, places: number) =>
@@ -54,26 +55,38 @@ export function getDailyURL(
  * @param {string} selectors
  * @return {URL} the menu URL for the specified date
  */
-export function getDailyMenuURL(dailyURL: URL, selectors: string): URL {
+export function getDailyMenuURL(dailyURL: URL, selectors: string): URL | void {
+  let dailyMenuURL: URL;
   axios.get(dailyURL.href).then((response) => {
-    console.log(response);
-  });
+    // console.log(response);
 
-  const dailyMenuURLEl = document.querySelector(selectors);
-  let dailyMenuURLStr;
-  if (dailyMenuURLEl === null) {
-    throw new Error("The element does not exists for the given selectors!");
-  } else {
-    dailyMenuURLStr = dailyMenuURLEl.getAttribute("href");
-  }
-  let dailyMenuURL;
-  if (dailyMenuURLStr === null) {
-    throw new Error("The href does not exists for the given element");
-  } else {
-    dailyMenuURL = new URL(dailyMenuURLStr);
-  }
-  // Info.Println("Daily Menu URL is ", dayMenuURL)
-  return dailyMenuURL;
+    const dailyMenuPageHtml = new JSDOM(response.data);
+
+    let dailyMenuURLEl;
+    if (dailyMenuPageHtml === null) {
+      throw new Error("The element does not exists for the given selectors!");
+    } else {
+      dailyMenuURLEl = dailyMenuPageHtml.window.document.querySelector(
+        selectors
+      );
+      console.log(dailyMenuURLEl);
+    }
+
+    let dailyMenuURLStr;
+    if (dailyMenuURLEl === null) {
+      throw new Error("The element does not exists for the given selectors!");
+    } else {
+      dailyMenuURLStr = dailyMenuURLEl.getAttribute("href");
+    }
+
+    if (dailyMenuURLStr === null) {
+      throw new Error("The href does not exists for the given element");
+    } else {
+      dailyMenuURL = new URL(dailyMenuURLStr);
+    }
+    // Info.Println("Daily Menu URL is ", dayMenuURL)
+    return dailyMenuURL;
+  });
 }
 
 // To do
