@@ -1,8 +1,5 @@
 /**
  * Returns the current datime in ISOFormat
- * @example
- * // returns "4/19/2021, 8:53:49 AM"
- * nowToday();
  * @return {Date} the current datime in Japanese Standard Time
  */
 export function nowToday(): Date {
