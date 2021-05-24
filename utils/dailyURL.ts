@@ -86,9 +86,3 @@ export async function getDailyMenuURL(
     alert(err);
   }
 }
-
-// To do
-// 1. Interactive Dev
-// 2. Error handling
-// 3. Add proper scraping lib
-// 4. Promise/then/Fetch/Axios
