@@ -11,11 +11,12 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
 ) => {
   const { user, content } = req.body;
   try {
-    await sendDailyPageInfoToSlack(user, content);
+    const sendResult = await sendDailyPageInfoToSlack(user, content);
     // other service call (or same service, different function can go here)
     // i.e. - await generateBlogpostPreview()
-    res.sendStatus(201);
-    next();
+    res.send(sendResult);
+    // res.sendStatus(201);
+    // next();
   } catch (e) {
     console.log(e.message);
     res.sendStatus(500) && next(e);
