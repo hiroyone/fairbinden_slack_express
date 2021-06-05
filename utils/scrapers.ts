@@ -38,16 +38,11 @@ export async function getDailyMenuURL(
   selectors: string
 ): Promise<null | void | URL> {
   try {
-    const dailyMenuURLElement = await getElementBySelectors(
-      dailyURL,
-      selectors
-    );
-    const dailyMenuURLString =
-      dailyMenuURLElement === undefined
-        ? null
-        : dailyMenuURLElement.getAttribute("href");
+    const dailyMenuURLEl = await getElementBySelectors(dailyURL, selectors);
+    const dailyMenuURLStr =
+      dailyMenuURLEl === undefined ? null : dailyMenuURLEl.getAttribute("href");
     const dailyMenuURL =
-      dailyMenuURLString === null ? null : new URL(dailyMenuURLString);
+      dailyMenuURLStr === null ? null : new URL(dailyMenuURLStr);
     // Info.Println("Main Text is: ", mainText)
     return dailyMenuURL;
   } catch (err) {
@@ -66,8 +61,8 @@ export async function getTitle(
   selectors: string
 ): Promise<string | null | void> {
   try {
-    const titleElement = await getElementBySelectors(pageURL, selectors);
-    const title = titleElement === undefined ? null : titleElement.innerHTML;
+    const titleEl = await getElementBySelectors(pageURL, selectors);
+    const title = titleEl === undefined ? null : titleEl.innerHTML;
     // Info.Println("Title is: ", Title)
     return title;
   } catch (err) {
@@ -86,9 +81,8 @@ export async function getMainText(
   selectors: string
 ): Promise<void | null | string> {
   try {
-    const mainTextElement = await getElementBySelectors(pageURL, selectors);
-    const mainText =
-      mainTextElement === undefined ? null : mainTextElement.textContent;
+    const mainTextEl = await getElementBySelectors(pageURL, selectors);
+    const mainText = mainTextEl === undefined ? null : mainTextEl.textContent;
     // Info.Println("Main Text is: ", mainText)
     return mainText;
   } catch (err) {
@@ -107,11 +101,9 @@ export async function getImageURL(
   selectors: string
 ): Promise<void | null | URL> {
   try {
-    const mainImageElement = await getElementBySelectors(pageURL, selectors);
+    const mainImageEl = await getElementBySelectors(pageURL, selectors);
     const mainImageURLString =
-      mainImageElement === undefined
-        ? null
-        : mainImageElement.getAttribute("src");
+      mainImageEl === undefined ? null : mainImageEl.getAttribute("src");
     const mainImageURL =
       mainImageURLString === null ? null : new URL(mainImageURLString);
     // Info.Println("Main Text is: ", mainText)
