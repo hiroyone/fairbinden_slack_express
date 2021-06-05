@@ -7,24 +7,28 @@ import { JSDOM } from "jsdom";
  * // returns new URL("https://xn--jvrr89ebqs6yg.tokyo/2021/04/19/%e8%b1%9a%e8%82%89%e3%81%ae%e3%82%ba%e3%83%83%e3%82%ad%e3%83%bc%e3%83%8b%e5%b7%bb%e3%81%8d%e3%83%95%e3%83%a9%e3%82%a4-6/")
  * getDailyMenuURL(new URL("https://xn--jvrr89ebqs6yg.tokyo/2021/04/19/"), "#archive_post_list > li > div > h3 > a")
  */
-export async function getDailyMenuURL(
-  dailyURL: URL,
+export async function getElementBySelectors(
+  pageURL: URL,
   selectors: string
-): Promise<void | URL> {
+): Promise<Element | void> {
   try {
-    const response = await axios.get(dailyURL.href);
-    const dailyPageHtml = new JSDOM(response.data);
+    const response = await axios.get(pageURL.href);
+    const pageHTML = new JSDOM(response.data);
 
-    const dailyMenuURLEl = dailyPageHtml.window.document.querySelector(
+    const elementBySelectors = pageHTML.window.document.querySelector(
       selectors
     );
 
-    let dailyMenuURLStr: string | null;
-    if (dailyMenuURLEl === null) {
+    if (elementBySelectors === null) {
       throw new Error("The element does not exists for the given selectors!");
     } else {
-      dailyMenuURLStr = dailyMenuURLEl.getAttribute("href");
+      // Info.Println("Element is: ", elementBySelectors)
+      return elementBySelectors;
     }
+  } catch (err) {
+    alert(err);
+  }
+}
 
     let dailyMenuURL: URL;
     if (dailyMenuURLStr === null) {
