@@ -50,7 +50,7 @@ export function getDailyURL(
  * Returns the menu URL for the specified date
  * @example
  * // returns new URL("https://xn--jvrr89ebqs6yg.tokyo/2021/04/19/%e8%b1%9a%e8%82%89%e3%81%ae%e3%82%ba%e3%83%83%e3%82%ad%e3%83%bc%e3%83%8b%e5%b7%bb%e3%81%8d%e3%83%95%e3%83%a9%e3%82%a4-6/")
- * getDailyMenuURL(new URL("https://xn--jvrr89ebqs6yg.tokyo/2021/04/19/"), "#archive_post_list > li > div > h3 > a");
+ * getDailyMenuURL(new URL("https://xn--jvrr89ebqs6yg.tokyo/2021/04/19/"), "#archive_post_list > li > div > h3 > a")
  * @param {URL} dailyURL
  * @param {string} selectors
  * @return {URL} the menu URL for the specified date
@@ -61,9 +61,9 @@ export async function getDailyMenuURL(
 ): Promise<void | URL> {
   try {
     const response = await axios.get(dailyURL.href);
-    const dailyMenuPageHtml = new JSDOM(response.data);
+    const dailyPageHtml = new JSDOM(response.data);
 
-    const dailyMenuURLEl = dailyMenuPageHtml.window.document.querySelector(
+    const dailyMenuURLEl = dailyPageHtml.window.document.querySelector(
       selectors
     );
 
