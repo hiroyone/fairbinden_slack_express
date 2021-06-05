@@ -10,8 +10,6 @@ export function nowToday(): Date {
 
 /**
  * Returns if it is a weekday or not
- * @param {Date} dateTime
- * @return {boolean} true if it is weekday, else not
  */
 export function checkWkday(dateTime: Date): boolean {
   // default
@@ -30,8 +28,6 @@ export function checkWkday(dateTime: Date): boolean {
  * Returns today's date in Japanese language
  * @example
  * // returns "2021年04月01日(木)"
- * @param {Date} dateTime
- * @return {string} today's date in Japanese language
  */
 export function getJapaneseDate(dateTime: Date): string {
   // Create a date object for convenience
