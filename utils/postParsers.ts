@@ -2,10 +2,7 @@ import axios from "axios";
 import { JSDOM } from "jsdom";
 
 /**
- * Returns the menu URL for the specified date
- * @example
- * // returns new URL("https://xn--jvrr89ebqs6yg.tokyo/2021/04/19/%e8%b1%9a%e8%82%89%e3%81%ae%e3%82%ba%e3%83%83%e3%82%ad%e3%83%bc%e3%83%8b%e5%b7%bb%e3%81%8d%e3%83%95%e3%83%a9%e3%82%a4-6/")
- * getDailyMenuURL(new URL("https://xn--jvrr89ebqs6yg.tokyo/2021/04/19/"), "#archive_post_list > li > div > h3 > a")
+ * Returns the element from a page by given URL and selectors
  */
 export async function getElementBySelectors(
   pageURL: URL,
@@ -30,13 +27,28 @@ export async function getElementBySelectors(
   }
 }
 
-    let dailyMenuURL: URL;
-    if (dailyMenuURLStr === null) {
-      throw new Error("The href does not exists for the given element");
-    } else {
-      dailyMenuURL = new URL(dailyMenuURLStr);
-    }
-    // Info.Println("Daily Menu URL is ", dayMenuURL)
+/**
+ * Returns the menu URL for the specified date
+ * @example
+ * // returns new URL("https://xn--jvrr89ebqs6yg.tokyo/2021/04/19/%e8%b1%9a%e8%82%89%e3%81%ae%e3%82%ba%e3%83%83%e3%82%ad%e3%83%bc%e3%83%8b%e5%b7%bb%e3%81%8d%e3%83%95%e3%83%a9%e3%82%a4-6/")
+ * getDailyMenuURL(new URL("https://xn--jvrr89ebqs6yg.tokyo/2021/04/19/"), "#archive_post_list > li > div > h3 > a")
+ */
+export async function getDailyMenuURL(
+  dailyURL: URL,
+  selectors: string
+): Promise<null | void | URL> {
+  try {
+    const dailyMenuURLElement = await getElementBySelectors(
+      dailyURL,
+      selectors
+    );
+    const dailyMenuURLString =
+      dailyMenuURLElement === undefined
+        ? null
+        : dailyMenuURLElement.getAttribute("href");
+    const dailyMenuURL =
+      dailyMenuURLString === null ? null : new URL(dailyMenuURLString);
+    // Info.Println("Main Text is: ", mainText)
     return dailyMenuURL;
   } catch (err) {
     alert(err);
@@ -52,21 +64,12 @@ export async function getElementBySelectors(
 export async function getTitle(
   pageURL: URL,
   selectors: string
-): Promise<string | void> {
+): Promise<string | null | void> {
   try {
-    const response = await axios.get(pageURL.href);
-    const dailyMenuPageHtml = new JSDOM(response.data);
-
-    const titleElement = dailyMenuPageHtml.window.document.querySelector(
-      selectors
-    );
-
-    if (titleElement === null) {
-      throw new Error("The element does not exists for the given selectors!");
-    } else {
-      // Info.Println("Title is: ", title)
-      return titleElement.innerHTML;
-    }
+    const titleElement = await getElementBySelectors(pageURL, selectors);
+    const title = titleElement === undefined ? null : titleElement.innerHTML;
+    // Info.Println("Title is: ", Title)
+    return title;
   } catch (err) {
     alert(err);
   }
@@ -81,20 +84,13 @@ export async function getTitle(
 export async function getMainText(
   pageURL: URL,
   selectors: string
-): Promise<string | void | null> {
+): Promise<void | null | string> {
   try {
-    const response = await axios.get(pageURL.href);
-    const dailyMenuPageHtml = new JSDOM(response.data);
-
-    const mainTextElement = dailyMenuPageHtml.window.document.querySelector(
-      selectors
-    );
-    if (mainTextElement === null) {
-      throw new Error("The element does not exists for the given selectors!");
-    } else {
-      // 	Info.Println("The texts: ", texts)
-      return mainTextElement.textContent;
-    }
+    const mainTextElement = await getElementBySelectors(pageURL, selectors);
+    const mainText =
+      mainTextElement === undefined ? null : mainTextElement.textContent;
+    // Info.Println("Main Text is: ", mainText)
+    return mainText;
   } catch (err) {
     alert(err);
   }
@@ -109,20 +105,17 @@ export async function getMainText(
 export async function getImageURL(
   pageURL: URL,
   selectors: string
-): Promise<string | void | null> {
+): Promise<void | null | URL> {
   try {
-    const response = await axios.get(pageURL.href);
-    const dailyMenuPageHtml = new JSDOM(response.data);
-
-    const mainImageElement = dailyMenuPageHtml.window.document.querySelector(
-      selectors
-    );
-    if (mainImageElement === null) {
-      throw new Error("The element does not exists for the given selectors!");
-    } else {
-      // 	fmt.Println("The image is: ", imageURL)
-      return mainImageElement.getAttribute("src");
-    }
+    const mainImageElement = await getElementBySelectors(pageURL, selectors);
+    const mainImageURLString =
+      mainImageElement === undefined
+        ? null
+        : mainImageElement.getAttribute("src");
+    const mainImageURL =
+      mainImageURLString === null ? null : new URL(mainImageURLString);
+    // Info.Println("Main Text is: ", mainText)
+    return mainImageURL;
   } catch (err) {
     alert(err);
   }
