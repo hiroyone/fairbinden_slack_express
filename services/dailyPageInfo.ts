@@ -1,6 +1,11 @@
 import { nowToday, checkWkday, getJapaneseDate } from "../utils/dates";
-import { getDailyURL, getDailyMenuURL } from "../utils/dailyURL";
-import { getTitle, getMainText, getImageURL } from "../utils/postParsers";
+import { getDailyURL } from "../utils/dailyURL";
+import {
+  getDailyMenuURL,
+  getTitle,
+  getMainText,
+  getImageURL,
+} from "../utils/postParsers";
 
 /**
  * Post the content info scraped from the website to Slack channel by webhook for a specified date
