@@ -5,7 +5,7 @@ import {
   getTitle,
   getMainText,
   getImageURL,
-} from "../utils/postParsers";
+} from "../utils/scrapers";
 
 /**
  * Post the content info scraped from the website to Slack channel by webhook for a specified date
