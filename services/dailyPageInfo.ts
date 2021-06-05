@@ -1,6 +1,6 @@
 import { nowToday, checkWkday, getJapaneseDate } from "../utils/dates";
 import { getDailyURL, getDailyMenuURL } from "../utils/dailyURL";
-import { getTitle } from "../utils/postParsers";
+import { getTitle, getMainText } from "../utils/postParsers";
 
 /**
  * Post the content info scraped from the website to Slack channel by webhook for a specified date
@@ -32,11 +32,18 @@ export const sendDailyPageInfoToSlack = async (
       ),
       "#single_post > h2"
     );
+    const menuMainText = await getMainText(
+      new URL(
+        "https://xn--jvrr89ebqs6yg.tokyo/2021/04/19/%e8%b1%9a%e8%82%89%e3%81%ae%e3%82%ba%e3%83%83%e3%82%ad%e3%83%bc%e3%83%8b%e5%b7%bb%e3%81%8d%e3%83%95%e3%83%a9%e3%82%a4-6/"
+      ),
+      "#single_post > div.post_content.clearfix"
+    );
     console.log(dateFlag);
     console.log(dateJpn);
     console.log(dailyURL.href);
     console.log(dailyMenuURL);
     console.log(menuURLTitle);
+    console.log(menuMainText);
     return true;
   } catch (err) {
     alert(err);
