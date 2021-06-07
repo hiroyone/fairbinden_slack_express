@@ -8,12 +8,12 @@ import axios, { AxiosResponse } from "axios";
  */
 export async function sendSlackMessage(
   webhookURL: URL,
-  messageBody: JSON
+  messageBody: string
 ): Promise<void | AxiosResponse<any>> {
   try {
     const response = await axios.post(webhookURL.href, messageBody);
     return response;
   } catch (err) {
-    alert(err);
+    console.log(err);
   }
 }
