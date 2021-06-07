@@ -60,7 +60,7 @@ export const sendDailyPageInfoToSlack = async (
     console.log(menuImageURL);
     return true;
   } catch (err) {
-    alert(err);
+    console.log(err);
     return false;
   }
 };

@@ -19,7 +19,7 @@ export async function getDailyMenuURL(
     // Info.Println("Main Text is: ", mainText)
     return dailyMenuURL;
   } catch (err) {
-    alert(err);
+    console.log(err);
   }
 }
 
@@ -39,7 +39,7 @@ export async function getTitle(
     // Info.Println("Title is: ", Title)
     return title;
   } catch (err) {
-    alert(err);
+    console.log(err);
   }
 }
 
@@ -59,7 +59,7 @@ export async function getMainText(
     // Info.Println("Main Text is: ", mainText)
     return mainText;
   } catch (err) {
-    alert(err);
+    console.log(err);
   }
 }
 
@@ -82,6 +82,6 @@ export async function getImageURL(
     // Info.Println("Main Text is: ", mainText)
     return mainImageURL;
   } catch (err) {
-    alert(err);
+    console.log(err);
   }
 }

@@ -23,6 +23,6 @@ export async function getElementBySelectors(
       return elementBySelectors;
     }
   } catch (err) {
-    alert(err);
+    console.log(err);
   }
 }
