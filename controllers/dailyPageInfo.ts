@@ -115,7 +115,3 @@ export const sendDailyPageInfoToSlack = async (
     return false;
   }
 };
-
-module.exports = {
-  sendDailyPageInfoToSlack,
-};
