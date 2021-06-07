@@ -33,7 +33,7 @@ export const sendDailyPageInfoToSlack = async (
       dailyURL,
       "#archive_post_list > li > div > h3 > a"
     );
-    const menuURLTitle = await getTitle(
+    const menuTitle = await getTitle(
       new URL(
         "https://xn--jvrr89ebqs6yg.tokyo/2021/04/19/%e8%b1%9a%e8%82%89%e3%81%ae%e3%82%ba%e3%83%83%e3%82%ad%e3%83%bc%e3%83%8b%e5%b7%bb%e3%81%8d%e3%83%95%e3%83%a9%e3%82%a4-6/"
       ),
@@ -57,7 +57,7 @@ export const sendDailyPageInfoToSlack = async (
     console.log(dateJpn);
     console.log(dailyURL.href);
     console.log(dailyMenuURL);
-    console.log(menuURLTitle);
+    console.log(menuTitle);
     console.log(menuMainText);
     console.log(menuImageURL);
 
