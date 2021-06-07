@@ -1,5 +1,5 @@
 import { getNowToday, checkWeekday, getJapaneseDate } from "./dates";
-import { getDailyURL } from "./dailyURL";
+import { createDayURL } from "./dailyURL";
 import { getDailyMenuURL, getTitle, getMainText, getImageURL } from "./post";
 import { sendSlackMessage } from "./webhook";
 import process from "process";
@@ -23,7 +23,7 @@ export const sendDailyPageInfoToSlack = async (
     const dateTime = new Date("2021-04-05T11:10+09:00");
     const dateFlag = checkWeekday(dateTime);
     const dateJpn = getJapaneseDate(dateTime);
-    const dailyURL = getDailyURL(dateTime, "https", "xn--jvrr89ebqs6yg.tokyo");
+    const dailyURL = createDayURL(dateTime, "https", "xn--jvrr89ebqs6yg.tokyo");
     const dailyMenuURL = await getDailyMenuURL(
       dailyURL,
       "#archive_post_list > li > div > h3 > a"

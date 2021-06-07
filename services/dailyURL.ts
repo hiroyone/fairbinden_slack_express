@@ -6,7 +6,7 @@ import { zeroPad } from "../utils/padding";
  * returns new URL("https://xn--jvrr89ebqs6yg.tokyo/2021/04/19/")
  * getDailyURL(dateTime, "https", "xn--jvrr89ebqs6yg.tokyo");
  */
-export function getDailyURL(
+export function createDayURL(
   datetime: Date,
   protocol: "http" | "https",
   hostname: string
