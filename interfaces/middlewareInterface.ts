@@ -10,3 +10,5 @@ export interface HttpException extends Error {
   status: number;
   message: string;
 }
+
+export type Protocol = "http" | "https";

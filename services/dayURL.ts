@@ -1,3 +1,4 @@
+import { Protocol } from "../interfaces/middlewareInterface";
 import { zeroPad } from "../utils/padding";
 
 /**
@@ -8,7 +9,7 @@ import { zeroPad } from "../utils/padding";
  */
 export function createDayURL(
   datetime: Date,
-  protocol: "http" | "https",
+  protocol: Protocol,
   hostname: string
 ): URL {
   // Define an interface for protocol and hostname
