@@ -1,4 +1,4 @@
-import { sendDailyPageInfoToSlack } from "../routes/dailyPageInfo";
+import { sendDailyPageInfoToSlack } from "./dailyPageInfo";
 import { MiddlewareFn } from "../interfaces/middlewareInterface";
 
 /*
