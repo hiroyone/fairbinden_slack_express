@@ -1,7 +1,7 @@
 import { nowToday, checkWkday, getJapaneseDate } from "./dates";
 import { getDailyURL } from "./dailyURL";
 import { getDailyMenuURL, getTitle, getMainText, getImageURL } from "./post";
-import { sendSlackMessage } from "../utils/webhook";
+import { sendSlackMessage } from "./webhook";
 import process from "process";
 
 /**
