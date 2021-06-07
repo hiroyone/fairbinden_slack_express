@@ -1,23 +1,19 @@
-/**
- * Post the message to Slack channel by webhook
- * @param {string} webhookURL - Slack webhook URL
- * @param {JSON} payload - the body message to be sent
- * @method POST
- * @return {boolean} True if the post request is successful
- */
-function sendToSlack(webhookURL: string, payload: JSON): boolean {
-  // 	request := gorequest.New().Proxy(proxy)
-  // 	resp, _, err := request.
-  // 		Post(webhookUrl).
-  // 		RedirectPolicy(redirectPolicyFunc).
-  // 		Send(payload).
-  // 		End()
+import axios, { AxiosResponse } from "axios";
 
-  // 	if err != nil {
-  // 		return err
-  // 	}
-  // 	if resp.StatusCode >= 400 {
-  // 		return []error{fmt.Errorf("Error sending msg. Status: %v", resp.Status)}
-  // 	}
-  return true;
+/**
+ * Handles the actual sending request.
+ * @param webhookURL
+ * @param messageBody
+ * @return {Promise}
+ */
+export async function sendSlackMessage(
+  webhookURL: URL,
+  messageBody: string
+): Promise<void | AxiosResponse<any>> {
+  try {
+    const response = await axios.post(webhookURL.href, messageBody);
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
 }
