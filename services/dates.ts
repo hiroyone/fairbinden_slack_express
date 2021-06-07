@@ -2,7 +2,7 @@
  * Returns the current datime in ISOFormat
  * @return {Date} the current datime in Japanese Standard Time
  */
-export function nowToday(): Date {
+export function getNowToday(): Date {
   const now = new Date();
   // Info.Println("The current time is: ", jpn_now.String())
   return now;
@@ -11,7 +11,7 @@ export function nowToday(): Date {
 /**
  * Returns if it is a weekday or not
  */
-export function checkWkday(dateTime: Date): boolean {
+export function checkWeekday(dateTime: Date): boolean {
   // default
   let weekdayFlag = false;
   // Create a date object

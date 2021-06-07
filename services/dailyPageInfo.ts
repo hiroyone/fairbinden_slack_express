@@ -1,4 +1,4 @@
-import { nowToday, checkWkday, getJapaneseDate } from "./dates";
+import { getNowToday, checkWeekday, getJapaneseDate } from "./dates";
 import { getDailyURL } from "./dailyURL";
 import { getDailyMenuURL, getTitle, getMainText, getImageURL } from "./post";
 import { sendSlackMessage } from "./webhook";
@@ -21,7 +21,7 @@ export const sendDailyPageInfoToSlack = async (
   try {
     // const dateTime = nowToday();
     const dateTime = new Date("2021-04-05T11:10+09:00");
-    const dateFlag = checkWkday(dateTime);
+    const dateFlag = checkWeekday(dateTime);
     const dateJpn = getJapaneseDate(dateTime);
     const dailyURL = getDailyURL(dateTime, "https", "xn--jvrr89ebqs6yg.tokyo");
     const dailyMenuURL = await getDailyMenuURL(
@@ -71,7 +71,7 @@ export const sendDailyPageInfoToSlack = async (
     // To do give an env variable
     const officeLunchURL = process.env.CHANNEL_OFFICE_BEN as string;
     // OfficeLunch is not available on Friday in my company
-    if (nowToday().getDay() <= 4) {
+    if (getNowToday().getDay() <= 4) {
       officeLunchAction = {
         type: "button",
         text: "やっぱり会社の弁当🍱",
@@ -97,7 +97,7 @@ export const sendDailyPageInfoToSlack = async (
           text: menuMainText,
           image_url: menuImageURL,
           footer: "税込800円 11:00-14:00",
-          timestamp: nowToday().getTime(),
+          timestamp: getNowToday().getTime(),
         },
       ],
     });
