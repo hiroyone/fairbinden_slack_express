@@ -1,6 +1,4 @@
-// Helper function to add leading zero padding to a number
-const zeroPad = (num: number, places: number) =>
-  String(num).padStart(places, "0");
+import { zeroPad } from "../utils/padding";
 
 /**
  * Returns the daily URL for the specified date
