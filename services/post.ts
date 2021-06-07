@@ -1,4 +1,4 @@
-import { getElementBySelectors } from "./element";
+import { getElementBySelectors } from "../utils/element";
 
 /**
  * Returns the menu URL for the specified date
