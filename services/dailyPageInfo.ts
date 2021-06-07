@@ -6,6 +6,8 @@ import {
   getMainText,
   getImageURL,
 } from "../utils/scrapers";
+import { sendSlackMessage } from "../utils/webhook";
+import process from "process";
 
 /**
  * Post the content info scraped from the website to Slack channel by webhook for a specified date
@@ -31,7 +33,7 @@ export const sendDailyPageInfoToSlack = async (
       dailyURL,
       "#archive_post_list > li > div > h3 > a"
     );
-    const menuURLTitle = await getTitle(
+    const menuTitle = await getTitle(
       new URL(
         "https://xn--jvrr89ebqs6yg.tokyo/2021/04/19/%e8%b1%9a%e8%82%89%e3%81%ae%e3%82%ba%e3%83%83%e3%82%ad%e3%83%bc%e3%83%8b%e5%b7%bb%e3%81%8d%e3%83%95%e3%83%a9%e3%82%a4-6/"
       ),
@@ -55,9 +57,58 @@ export const sendDailyPageInfoToSlack = async (
     console.log(dateJpn);
     console.log(dailyURL.href);
     console.log(dailyMenuURL);
-    console.log(menuURLTitle);
+    console.log(menuTitle);
     console.log(menuMainText);
     console.log(menuImageURL);
+
+    const yourWebHookURL = new URL(process.env.CHANNEL_STG as string); // PUT YOUR WEBHOOK URL HERE
+
+    // const userAccountNotification = JSON.stringify({});
+
+    const fairbindenLunchACtion = {
+      type: "button",
+      text: "今日のランチ🍚",
+      url: dailyMenuURL,
+      style: "primary",
+    };
+
+    let officeLunchAction;
+    // To do give an env variable
+    const officeLunchURL = process.env.CHANNEL_OFFICE_BEN as string;
+    // OfficeLunch is not available on Friday in my company
+    if (nowToday().getDay() <= 4) {
+      officeLunchAction = {
+        type: "button",
+        text: "やっぱり会社の弁当🍱",
+        url: officeLunchURL,
+        style: "danger",
+      };
+    } else {
+      officeLunchAction = {};
+    }
+
+    const userAccountNotification = JSON.stringify({
+      attachments: [
+        {
+          // this defines the attachment block, allows for better layout usage
+          color: "#36a64f", // color of the attachments sidebar.
+          fallback: "情報を正しく取れませんでした",
+          pretext: dateJpn + "のランチです！",
+          actions: [fairbindenLunchACtion, officeLunchAction],
+          author_name: "フェアビンデン Express!",
+          author_link: "http://xn--jvrr89ebqs6yg.tokyo/",
+          title: menuTitle,
+          title_link: dailyMenuURL,
+          text: menuMainText,
+          image_url: menuImageURL,
+          footer: "税込800円 11:00-14:00",
+          timestamp: nowToday().getTime(),
+        },
+      ],
+    });
+
+    sendSlackMessage(yourWebHookURL, userAccountNotification);
+
     return true;
   } catch (err) {
     console.log(err);
@@ -68,110 +119,3 @@ export const sendDailyPageInfoToSlack = async (
 module.exports = {
   sendDailyPageInfoToSlack,
 };
-
-// /*
-// SendSlack Sends a scraped message to Slack
-// */
-// func SendSlack(w http.ResponseWriter, r *http.Request) {
-// 	Init(ioutil.Discard, os.Stdout, os.Stdout, os.Stderr)
-// 	// Logging Examples
-// 	// Trace.Println("I have something standard to say")
-// 	// Info.Println("Special Information")
-// 	// Warning.Println("There is something you need to know about")
-// 	// Error.Println("Something has failed")
-
-// 	Info.Println("Run SendSlack Function")
-// 	env := os.Getenv("ENV")
-
-// 	now := nowToday()
-// 	// For debugging: weekday menu
-// 	// now := time.Date(2019, 6, 27, 23, 59, 59, 0, time.UTC)
-
-// 	var webhookURL string
-// 	if env == "PRD" {
-// 		webhookURL = os.Getenv("channelPRD")
-// 	} else if env == "STG" {
-// 		webhookURL = os.Getenv("channelSTG")
-// 	} else {
-// 		Error.Println("The value must be either PRD or STG")
-// 	}
-
-// 	if dayURL, err := getDailyURL(now); err != nil {
-// 		// panic(err)
-// 		Info.Println("No posting to Slack:", err)
-// 		// Write a text to HTTP page
-// 		w.Write([]byte(fmt.Sprint("No posting to Slack:", err)))
-// 	} else {
-// 		Info.Println("Get article data")
-// 		// Daily Menu if exists
-// 		if dayMenuURL, err := getDailyMenuURL(*dayURL); err != nil {
-// 			// panic(err)
-// 			Info.Println("No posting to Slack:", err)
-// 			// Write a text to HTTP page
-// 			w.Write([]byte(fmt.Sprint("No posting to Slack:", err)))
-// 		} else {
-// 			mainText := *getMainTexts(*dayMenuURL)
-// 			title := *getTitle(*dayMenuURL)
-// 			imageURL := *getImageURL(*dayMenuURL)
-
-// 			Info.Println("Other meta data")
-// 			japaneseDate := getJapaneseDate(now)
-// 			unixTime := now.Unix()
-
-// 			Info.Println("Today's lunch menu URL:", *dayMenuURL)
-// 			lunchAction := Action{
-// 				Type:  "button",
-// 				Text:  "今日のランチ🍚",
-// 				Url:   *dayMenuURL,
-// 				Style: "primary",
-// 			}
-
-// 			var officeLunchAction Action
-// 			officeLunchURL := os.Getenv("channelOfficeBen")
-// 			Info.Println("Office Lunch URL: ", officeLunchURL)
-
-// 			// OfficeLunch is not available on Friday in my company
-// 			if now.Weekday() <= 4 {
-// 				officeLunchAction = Action{
-// 					Type:  "button",
-// 					Text:  "やっぱり会社の弁当🍱",
-// 					Url:   officeLunchURL,
-// 					Style: "danger",
-// 				}
-// 			} else {
-// 				officeLunchAction = Action{}
-// 			}
-
-// 			Info.Println("Prepare attachments for slack posting")
-// 			attachments := Attachment{
-// 				Fallback:   "Required plain-text summary of the attachment.",
-// 				Color:      "#36a64f",
-// 				PreText:    japaneseDate + "のランチです！",
-// 				Actions:    []Action{lunchAction, officeLunchAction},
-// 				AuthorName: "フェアビンデン GO!",
-// 				AuthorLink: "http://xn--jvrr89ebqs6yg.tokyo/",
-// 				AuthorIcon: "http://flickr.com/icons/bobby.jpg",
-// 				Title:      title,
-// 				TitleLink:  *dayMenuURL,
-// 				Text:       mainText,
-// 				ImageURL:   imageURL,
-// 				// ThumbnailURL: "http://example.com/path/to/thumb.png",
-// 				Footer: "税込800円 11:00-14:00",
-// 				// FooterIcon: "https://platform.slack-edge.com/img/default_application_icon.png",
-// 				Timestamp: unixTime,
-// 			}
-
-// 			Info.Println("Post a message to Slack")
-// 			payload := Payload{
-// 				Attachments: []Attachment{attachments},
-// 			}
-// 			err := send(webhookURL, "", payload)
-// 			if len(err) > 0 {
-// 				fmt.Printf("error: %s\n", err)
-// 			}
-
-// 			// Write a text to HTTP page
-// 			w.Write([]byte((mainText)))
-// 		}
-// 	}
-// }
