@@ -39,6 +39,7 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
       "#archive_post_list > li > div > h3 > a"
     );
 
+    // If daily menu URL is found, get article contents
     let menuMainText, menuTitle, menuImageURL;
     if (dailyMenuURL) {
       menuTitle = await getTitle(dailyMenuURL, "#single_post > h2");
