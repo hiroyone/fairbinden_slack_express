@@ -1,4 +1,4 @@
-import { MiddlewareFn, Protocol } from "../interfaces/middlewareInterface";
+import { MiddlewareFn, Protocol } from "../interfaces/middleware";
 import { getNowToday, checkWeekday, getJapaneseDate } from "../utils/dates";
 import { createDayURL } from "../services/dayURL";
 import {
@@ -9,7 +9,7 @@ import {
 } from "../services/post";
 import { sendSlackMessage } from "../utils/webhook";
 import process from "process";
-import { Action } from "../interfaces/slackWebhook";
+import { Action, Attachment, Payload } from "../interfaces/slackWebhook";
 
 /**
  * Post the content info scraped from the website to Slack channel by webhook for a specified date
@@ -20,7 +20,7 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
   next
 ) => {
   const { user, content } = req.body;
-  const yourWebHookURL = new URL(process.env.CHANNEL_STG as string); // PUT YOUR WEBHOOK URL HERE
+  const webHookURL = new URL(process.env.CHANNEL_STG as string); // PUT YOUR WEBHOOK URL HERE
   const fairbinden = { protocol: "https", host: "xn--jvrr89ebqs6yg.tokyo" };
   // TO do: Use datetime
   // dateTime: Date
@@ -55,14 +55,14 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
       throw "Daily Menu URL does not exists";
     }
 
-    const fairbindenLunchACtion = {
+    const fairbindenLunchACtion: Action = {
       type: "button",
       text: "今日のランチ🍚",
-      url: dailyMenuURL,
+      url: (dailyMenuURL as URL).href,
       style: "primary",
     };
 
-    let officeLunchAction;
+    let officeLunchAction: Action;
     // To do give an env variable
     const officeLunchURL = process.env.CHANNEL_OFFICE_BEN as string;
     // OfficeLunch is not available on Friday in my company
@@ -74,41 +74,45 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
         style: "danger",
       };
     } else {
-      officeLunchAction = {};
+      // To do suppress this more elegantly
+      officeLunchAction = {
+        type: "",
+        text: "",
+        url: "",
+        style: "",
+      };
     }
 
-    const userAccountNotification = JSON.stringify({
-      attachments: [
-        {
-          // this defines the attachment block, allows for better layout usage
-          color: "#36a64f", // color of the attachments sidebar.
-          fallback: "情報を正しく取れませんでした",
-          pretext: dateJpn + "のランチです！",
-          actions: [fairbindenLunchACtion, officeLunchAction],
-          author_name: "フェアビンデン Express!",
-          author_link: "http://xn--jvrr89ebqs6yg.tokyo/",
-          title: menuTitle,
-          title_link: dailyMenuURL,
-          text: menuMainText,
-          image_url: menuImageURL,
-          footer: "税込800円 11:00-14:00",
-          timestamp: getNowToday().getTime(),
-        },
-      ],
-    });
+    let attachment: Attachment;
+    if (menuTitle && menuMainText && menuImageURL) {
+      attachment = {
+        // this defines the attachment block, allows for better layout usage
+        color: "#36a64f", // color of the attachments sidebar.
+        fallback: "情報を正しく取れませんでした",
+        pretext: dateJpn + "のランチです！",
+        actions: [fairbindenLunchACtion, officeLunchAction],
+        author_name: "フェアビンデン Express!",
+        author_link: "http://xn--jvrr89ebqs6yg.tokyo/",
+        title: menuTitle,
+        title_link: dailyMenuURL.href,
+        text: menuMainText,
+        image_url: menuImageURL.href,
+        footer: "税込800円 11:00-14:00",
+        ts: getNowToday().getTime(),
+      };
 
-    const sendResult = await sendSlackMessage(
-      yourWebHookURL,
-      userAccountNotification
-    );
+      const payload: Payload = {
+        attachments: [attachment],
+      };
 
-    // other service call (or same service, different function can go here)
-    // i.e. - await generateBlogpostPreview()
-    res.send(sendResult);
-    // res.sendStatus(201);
-    // next();
+      const payloadJSON = JSON.stringify(payload);
+      const sendResult = await sendSlackMessage(webHookURL, payloadJSON);
+      res.send("Slack Message: " + sendResult.data);
+    } else {
+      throw `Some of article information was not found: menuTitle: ${menuTitle}, menuMainText ${menuMainText}, menuImageURL: ${menuImageURL}`;
+    }
   } catch (err) {
     console.log(err.message);
-    res.sendStatus(500) && next(e);
+    res.sendStatus(500) && next(err);
   }
 };

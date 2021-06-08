@@ -1,4 +1,4 @@
-import { Protocol } from "../interfaces/middlewareInterface";
+import { Protocol } from "../interfaces/middleware";
 import { zeroPad } from "../utils/padding";
 
 /**
