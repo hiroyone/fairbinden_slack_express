@@ -1,4 +1,4 @@
-import { MiddlewareFn } from "../interfaces/middlewareInterface";
+import { MiddlewareFn } from "../interfaces/middleware";
 
 import express = require("express");
 import { sendFairbindenLunchMenuToSlack } from "../controllers/fairbinden";

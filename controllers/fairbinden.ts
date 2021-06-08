@@ -1,4 +1,4 @@
-import { MiddlewareFn, Protocol } from "../interfaces/middlewareInterface";
+import { MiddlewareFn, Protocol } from "../interfaces/middleware";
 import { getNowToday, checkWeekday, getJapaneseDate } from "../utils/dates";
 import { createDayURL } from "../services/dayURL";
 import {
