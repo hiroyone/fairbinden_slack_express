@@ -22,22 +22,27 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
   const { user, content } = req.body;
   const webHookURL = new URL(process.env.CHANNEL_STG as string); // PUT YOUR WEBHOOK URL HERE
   const fairbinden = { protocol: "https", host: "xn--jvrr89ebqs6yg.tokyo" };
-  // TO do: Use datetime
-  // dateTime: Date
   try {
-    // const dateTime = nowToday();
-    const dateTime = new Date("2021-04-05T11:10+09:00");
-    const dateFlag = checkWeekday(dateTime);
+    // TO DO: Inject a time parameter from Post body
+    // const dateTime = new Date("2021-04-05T11:10+09:00");
+    const dateTime = getNowToday();
     const dateJpn = getJapaneseDate(dateTime);
     const dailyURL = createDayURL(
       dateTime,
       fairbinden.protocol as Protocol,
       fairbinden.host
     );
-    const dailyMenuURL = await getDayMenuURL(
-      dailyURL,
-      "#archive_post_list > li > div > h3 > a"
-    );
+    const dateFlag = checkWeekday(dateTime);
+
+    let dailyMenuURL: void | URL | null;
+    if (dateFlag) {
+      dailyMenuURL = await getDayMenuURL(
+        dailyURL,
+        "#archive_post_list > li > div > h3 > a"
+      );
+    } else {
+      throw "Today is not a weekday.";
+    }
 
     // If daily menu URL is found, get article contents
     let menuMainText, menuTitle, menuImageURL;
