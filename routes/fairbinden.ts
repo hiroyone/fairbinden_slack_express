@@ -1,7 +1,7 @@
 import { MiddlewareFn } from "../interfaces/middlewareInterface";
 
 import express = require("express");
-import { sendFairbindenLunchMenuToSlack } from "../controllers/fairbindenController";
+import { sendFairbindenLunchMenuToSlack } from "../controllers/fairbinden";
 
 export const fairbnRouter = express.Router();
 

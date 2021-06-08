@@ -3,7 +3,7 @@ import express = require("express");
 import path = require("path");
 import cookieParser = require("cookie-parser");
 import logger = require("morgan");
-import { fairbnRouter } from "./routes/fairbindenRoute";
+import { fairbnRouter } from "./routes/fairbinden";
 import { HttpException } from "./interfaces/middlewareInterface";
 
 export const app = express();

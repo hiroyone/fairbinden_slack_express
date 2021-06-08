@@ -1,6 +1,5 @@
-// Helper function to add leading zero padding to a number
-const zeroPad = (num: number, places: number) =>
-  String(num).padStart(places, "0");
+import { Protocol } from "../interfaces/middlewareInterface";
+import { zeroPad } from "../utils/padding";
 
 /**
  * Returns the daily URL for the specified date
@@ -8,9 +7,9 @@ const zeroPad = (num: number, places: number) =>
  * returns new URL("https://xn--jvrr89ebqs6yg.tokyo/2021/04/19/")
  * getDailyURL(dateTime, "https", "xn--jvrr89ebqs6yg.tokyo");
  */
-export function getDailyURL(
+export function createDayURL(
   datetime: Date,
-  protocol: "http" | "https",
+  protocol: Protocol,
   hostname: string
 ): URL {
   // Define an interface for protocol and hostname
