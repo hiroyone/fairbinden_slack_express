@@ -9,7 +9,7 @@ import {
 } from "../services/post";
 import { sendSlackMessage } from "../utils/webhook";
 import process from "process";
-import { Action } from "../interfaces/slackWebhook";
+import { Action, Attachment } from "../interfaces/slackWebhook";
 
 /**
  * Post the content info scraped from the website to Slack channel by webhook for a specified date
@@ -83,32 +83,34 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
       };
     }
 
-    const userAccountNotification = JSON.stringify({
-      attachments: [
-        {
-          // this defines the attachment block, allows for better layout usage
-          color: "#36a64f", // color of the attachments sidebar.
-          fallback: "情報を正しく取れませんでした",
-          pretext: dateJpn + "のランチです！",
-          actions: [fairbindenLunchACtion, officeLunchAction],
-          author_name: "フェアビンデン Express!",
-          author_link: "http://xn--jvrr89ebqs6yg.tokyo/",
-          title: menuTitle,
-          title_link: dailyMenuURL,
-          text: menuMainText,
-          image_url: menuImageURL,
-          footer: "税込800円 11:00-14:00",
-          timestamp: getNowToday().getTime(),
-        },
-      ],
-    });
-
-    const sendResult = await sendSlackMessage(
-      yourWebHookURL,
-      userAccountNotification
-    );
-
-    res.send("Slack Message: " + sendResult.data);
+    let attachment: Attachment;
+    if (menuTitle && menuMainText && menuImageURL) {
+      attachment = {
+        // this defines the attachment block, allows for better layout usage
+        color: "#36a64f", // color of the attachments sidebar.
+        fallback: "情報を正しく取れませんでした",
+        pretext: dateJpn + "のランチです！",
+        actions: [fairbindenLunchACtion, officeLunchAction],
+        author_name: "フェアビンデン Express!",
+        author_link: "http://xn--jvrr89ebqs6yg.tokyo/",
+        title: menuTitle,
+        title_link: dailyMenuURL.href,
+        text: menuMainText,
+        image_url: menuImageURL.href,
+        footer: "税込800円 11:00-14:00",
+        ts: getNowToday().getTime(),
+      };
+      const userAccountNotification = JSON.stringify({
+        attachments: [attachment],
+      });
+      const sendResult = await sendSlackMessage(
+        yourWebHookURL,
+        userAccountNotification
+      );
+      res.send("Slack Message: " + sendResult.data);
+    } else {
+      throw `Some of article information was not found: menuTitle: ${menuTitle}, menuMainText ${menuMainText}, menuImageURL: ${menuImageURL}`;
+    }
   } catch (err) {
     console.log(err.message);
     res.sendStatus(500) && next(err);
