@@ -9,7 +9,7 @@ import {
 } from "../services/post";
 import { sendSlackMessage } from "../utils/webhook";
 import process from "process";
-import { Action, Attachment } from "../interfaces/slackWebhook";
+import { Action, Attachment, Payload } from "../interfaces/slackWebhook";
 
 /**
  * Post the content info scraped from the website to Slack channel by webhook for a specified date
@@ -20,7 +20,7 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
   next
 ) => {
   const { user, content } = req.body;
-  const yourWebHookURL = new URL(process.env.CHANNEL_STG as string); // PUT YOUR WEBHOOK URL HERE
+  const webHookURL = new URL(process.env.CHANNEL_STG as string); // PUT YOUR WEBHOOK URL HERE
   const fairbinden = { protocol: "https", host: "xn--jvrr89ebqs6yg.tokyo" };
   // TO do: Use datetime
   // dateTime: Date
@@ -100,13 +100,13 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
         footer: "税込800円 11:00-14:00",
         ts: getNowToday().getTime(),
       };
-      const userAccountNotification = JSON.stringify({
+
+      const payload: Payload = {
         attachments: [attachment],
-      });
-      const sendResult = await sendSlackMessage(
-        yourWebHookURL,
-        userAccountNotification
-      );
+      };
+
+      const payloadJSON = JSON.stringify(payload);
+      const sendResult = await sendSlackMessage(webHookURL, payloadJSON);
       res.send("Slack Message: " + sendResult.data);
     } else {
       throw `Some of article information was not found: menuTitle: ${menuTitle}, menuMainText ${menuMainText}, menuImageURL: ${menuImageURL}`;

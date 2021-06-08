@@ -33,15 +33,15 @@ export interface Attachment {
 }
 
 export interface Payload {
-  parse: string;
-  username: string;
-  icon_url: string;
-  icon_emoji: string;
-  channel: string;
-  text: string;
-  link_names: string;
-  attachments: Attachment[];
-  unfurl_links: boolean;
-  unfurl_media: boolean;
-  mrkdwn: boolean;
+  parse?: string;
+  username?: string;
+  icon_url?: string;
+  icon_emoji?: string;
+  channel?: string;
+  text?: string;
+  link_names?: string;
+  attachments?: Attachment[];
+  unfurl_links?: boolean;
+  unfurl_media?: boolean;
+  mrkdwn?: boolean;
 }
