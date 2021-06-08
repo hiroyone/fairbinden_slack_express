@@ -7,7 +7,7 @@ export interface Field {
 export interface Action {
   type: string;
   text: string;
-  url: URL;
+  url: string;
   style: string;
 }
 

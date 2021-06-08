@@ -73,14 +73,14 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
 
     // const userAccountNotification = JSON.stringify({});
 
-    const fairbindenLunchACtion = {
+    const fairbindenLunchACtion: Action = {
       type: "button",
       text: "今日のランチ🍚",
-      url: dailyMenuURL,
+      url: (dailyMenuURL as URL).href,
       style: "primary",
     };
 
-    let officeLunchAction;
+    let officeLunchAction: Action;
     // To do give an env variable
     const officeLunchURL = process.env.CHANNEL_OFFICE_BEN as string;
     // OfficeLunch is not available on Friday in my company
@@ -92,7 +92,13 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
         style: "danger",
       };
     } else {
-      officeLunchAction = {};
+      // To do suppress this more elegantly
+      officeLunchAction = {
+        type: "",
+        text: "",
+        url: "",
+        style: "",
+      };
     }
 
     const userAccountNotification = JSON.stringify({
