@@ -9,11 +9,12 @@ import axios, { AxiosResponse } from "axios";
 export async function sendSlackMessage(
   webhookURL: URL,
   messageBody: string
-): Promise<void | AxiosResponse<any>> {
+): Promise<AxiosResponse<any>> {
   try {
     const response = await axios.post(webhookURL.href, messageBody);
     return response;
   } catch (err) {
     console.log(err);
+    return err;
   }
 }

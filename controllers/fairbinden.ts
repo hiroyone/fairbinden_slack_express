@@ -38,16 +38,21 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
       dailyURL,
       "#archive_post_list > li > div > h3 > a"
     );
-    const menuTitle = await getTitle(dailyMenuURL, "#single_post > h2");
-    const menuMainText = await getMainText(
-      dailyMenuURL,
-      "#single_post > div.post_content.clearfix"
-    );
 
-    const menuImageURL = await getImageURL(
-      dailyMenuURL,
-      "#single_post > div.post_image > img"
-    );
+    let menuMainText, menuTitle, menuImageURL;
+    if (dailyMenuURL) {
+      menuTitle = await getTitle(dailyMenuURL, "#single_post > h2");
+      menuMainText = await getMainText(
+        dailyMenuURL,
+        "#single_post > div.post_content.clearfix"
+      );
+      menuImageURL = await getImageURL(
+        dailyMenuURL,
+        "#single_post > div.post_image > img"
+      );
+    } else {
+      throw "Daily Menu URL does not exists";
+    }
 
     const fairbindenLunchACtion: Action = {
       type: "button",
