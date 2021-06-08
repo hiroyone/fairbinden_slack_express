@@ -107,11 +107,7 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
       userAccountNotification
     );
 
-    // other service call (or same service, different function can go here)
-    // i.e. - await generateBlogpostPreview()
-    res.send(sendResult);
-    // res.sendStatus(201);
-    // next();
+    res.send("Slack Message: " + sendResult.data);
   } catch (err) {
     console.log(err.message);
     res.sendStatus(500) && next(err);
