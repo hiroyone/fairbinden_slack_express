@@ -97,7 +97,7 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
         pretext: dateJpn + "のランチです！",
         actions: [fairbindenLunchACtion, officeLunchAction],
         author_name: "フェアビンデン Express!",
-        author_link: "http://xn--jvrr89ebqs6yg.tokyo/",
+        author_link: fairbinden.host,
         title: menuTitle,
         title_link: dailyMenuURL.href,
         text: menuMainText,
