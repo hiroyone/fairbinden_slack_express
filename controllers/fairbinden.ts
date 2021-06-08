@@ -9,6 +9,7 @@ import {
 } from "../services/post";
 import { sendSlackMessage } from "../utils/webhook";
 import process from "process";
+import { Action } from "../interfaces/slackWebhook";
 
 /**
  * Post the content info scraped from the website to Slack channel by webhook for a specified date
@@ -26,52 +27,27 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
   try {
     // const dateTime = nowToday();
     const dateTime = new Date("2021-04-05T11:10+09:00");
-    console.log(dateTime);
-
     const dateFlag = checkWeekday(dateTime);
-    console.log(dateFlag);
-
     const dateJpn = getJapaneseDate(dateTime);
-    console.log(dateJpn);
-
     const dailyURL = createDayURL(
       dateTime,
       fairbinden.protocol as Protocol,
       fairbinden.host
     );
-    console.log(dailyURL.href);
-
     const dailyMenuURL = await getDayMenuURL(
       dailyURL,
       "#archive_post_list > li > div > h3 > a"
     );
-    console.log(dailyMenuURL);
-
-    const menuTitle = await getTitle(
-      new URL(
-        "https://xn--jvrr89ebqs6yg.tokyo/2021/04/19/%e8%b1%9a%e8%82%89%e3%81%ae%e3%82%ba%e3%83%83%e3%82%ad%e3%83%bc%e3%83%8b%e5%b7%bb%e3%81%8d%e3%83%95%e3%83%a9%e3%82%a4-6/"
-      ),
-      "#single_post > h2"
-    );
-    console.log(menuTitle);
-
+    const menuTitle = await getTitle(dailyMenuURL, "#single_post > h2");
     const menuMainText = await getMainText(
-      new URL(
-        "https://xn--jvrr89ebqs6yg.tokyo/2021/04/19/%e8%b1%9a%e8%82%89%e3%81%ae%e3%82%ba%e3%83%83%e3%82%ad%e3%83%bc%e3%83%8b%e5%b7%bb%e3%81%8d%e3%83%95%e3%83%a9%e3%82%a4-6/"
-      ),
+      dailyMenuURL,
       "#single_post > div.post_content.clearfix"
     );
-    console.log(menuMainText);
 
     const menuImageURL = await getImageURL(
-      new URL(
-        "https://xn--jvrr89ebqs6yg.tokyo/2021/04/19/%e8%b1%9a%e8%82%89%e3%81%ae%e3%82%ba%e3%83%83%e3%82%ad%e3%83%bc%e3%83%8b%e5%b7%bb%e3%81%8d%e3%83%95%e3%83%a9%e3%82%a4-6/"
-      ),
+      dailyMenuURL,
       "#single_post > div.post_image > img"
     );
-    console.log(menuImageURL);
-
-    // const userAccountNotification = JSON.stringify({});
 
     const fairbindenLunchACtion: Action = {
       type: "button",
