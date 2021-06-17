@@ -20,7 +20,24 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
   next
 ) => {
   const { user, content } = req.body;
-  const webHookURL = new URL(process.env.CHANNEL_STG as string); // PUT YOUR WEBHOOK URL HERE
+
+  // Info.Println("Run SendSlack Function")
+  const env = process.env.ENV;
+
+  let webHookURL: URL;
+
+  switch (env) {
+    case "PRD":
+      webHookURL = new URL(process.env.CHANNEL_PRD as string); // PUT YOUR WEBHOOK URL HERE
+      break;
+    case "STG":
+      webHookURL = new URL(process.env.CHANNEL_STG as string); // PUT YOUR WEBHOOK URL HERE
+      break;
+    default:
+      // Error.Println("The value must be either PRD or STG")
+      webHookURL = new URL(process.env.CHANNEL_STG as string); // PUT YOUR WEBHOOK URL HERE
+  }
+
   const fairbinden = { protocol: "https", host: "xn--jvrr89ebqs6yg.tokyo" };
   try {
     // TO DO: Inject a time parameter from Post body
