@@ -22,11 +22,11 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
   const { user, content } = req.body;
 
   // Info.Println("Run SendSlack Function")
-  const env = process.env.ENV;
+  const NODE_ENV = process.env.ENV;
 
   let webHookURL: URL;
 
-  switch (env) {
+  switch (NODE_ENV) {
     case "PRD":
       webHookURL = new URL(process.env.CHANNEL_PRD as string); // PUT YOUR WEBHOOK URL HERE
       break;
