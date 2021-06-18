@@ -8,12 +8,16 @@ import { app } from "../app";
 import Debug = require("debug");
 const debug = Debug("fairbinden-slack-express:server");
 import http = require("http");
+import dotenv from "dotenv";
+dotenv.config();
+
+console.log(`Environment: ${process.env.NODE_ENV}`);
 
 /**
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(process.env.PORT || "3003");
+const port = normalizePort(process.env.PORT || "8080");
 app.set("port", port);
 
 /**

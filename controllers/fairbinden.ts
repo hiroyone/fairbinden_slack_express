@@ -20,7 +20,10 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
   next
 ) => {
   const { user, content } = req.body;
-  const webHookURL = new URL(process.env.CHANNEL_STG as string); // PUT YOUR WEBHOOK URL HERE
+
+  // Info.Println("Run SendSlack Function")
+  const webHookURL = new URL(process.env.WEB_HOOK_URL as string);
+
   const fairbinden = { protocol: "https", host: "xn--jvrr89ebqs6yg.tokyo" };
   try {
     // TO DO: Inject a time parameter from Post body
