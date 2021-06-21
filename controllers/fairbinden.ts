@@ -121,6 +121,6 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
     }
   } catch (err) {
     console.log(err.message);
-    res.sendStatus(500) && next(err);
+    next(err);
   }
 };
