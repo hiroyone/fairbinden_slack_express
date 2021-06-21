@@ -4,7 +4,7 @@
  */
 export function getNowToday(): Date {
   const now = new Date();
-  // Info.Println("The current time is: ", jpn_now.String())
+  console.log("The current time is: ", jpn_now.String());
   return now;
 }
 
@@ -17,9 +17,9 @@ export function checkWeekday(dateTime: Date): boolean {
   // Create a date object
   if (dateTime.getDay() >= 1 && dateTime.getDay() <= 5) {
     weekdayFlag = true;
-    // Info.Println("It is a Weekday today");
+    console.log("It is a Weekday today");
   } else {
-    // Info.Println("It is the weekend");
+    console.log("It is the weekend");
   }
   return weekdayFlag;
 }

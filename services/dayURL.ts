@@ -34,6 +34,6 @@ export function createDayURL(
       zeroPadDay +
       "/"
   );
-  // 	Info.Println("Today's URL is", dayURL)
+  console.log("Today's URL is", dailyURL);
   return dailyURL;
 }
