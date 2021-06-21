@@ -21,7 +21,7 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
 ) => {
   const { user, content } = req.body;
 
-  // Info.Println("Run SendSlack Function")
+  console.log("Run SendSlack Function");
   const webHookURL = new URL(process.env.WEB_HOOK_URL as string);
 
   const fairbinden = { protocol: "https", host: "xn--jvrr89ebqs6yg.tokyo" };
@@ -121,6 +121,6 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
     }
   } catch (err) {
     console.log(err.message);
-    res.sendStatus(500) && next(err);
+    next(err);
   }
 };

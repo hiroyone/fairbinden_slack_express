@@ -16,7 +16,7 @@ export async function getDayMenuURL(
       dailyMenuURLEl === undefined ? null : dailyMenuURLEl.getAttribute("href");
     const dailyMenuURL =
       dailyMenuURLStr === null ? null : new URL(dailyMenuURLStr);
-    // Info.Println("Main Text is: ", mainText)
+    console.log("Main URL is: ", dailyMenuURL);
     return dailyMenuURL;
   } catch (err) {
     console.log(err);
@@ -36,7 +36,7 @@ export async function getTitle(
   try {
     const titleEl = await getElementBySelectors(pageURL, selectors);
     const title = titleEl === undefined ? null : titleEl.innerHTML;
-    // Info.Println("Title is: ", Title)
+    console.log("Title is: ", title);
     return title;
   } catch (err) {
     console.log(err);
@@ -56,7 +56,7 @@ export async function getMainText(
   try {
     const mainTextEl = await getElementBySelectors(pageURL, selectors);
     const mainText = mainTextEl === undefined ? null : mainTextEl.textContent;
-    // Info.Println("Main Text is: ", mainText)
+    console.log("Main Text is: ", mainText);
     return mainText;
   } catch (err) {
     console.log(err);
@@ -79,7 +79,7 @@ export async function getImageURL(
       mainImageEl === undefined ? null : mainImageEl.getAttribute("src");
     const mainImageURL =
       mainImageURLString === null ? null : new URL(mainImageURLString);
-    // Info.Println("Main Text is: ", mainText)
+    console.log("Main Image URL is: ", mainImageURL);
     return mainImageURL;
   } catch (err) {
     console.log(err);

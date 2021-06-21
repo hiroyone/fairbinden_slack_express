@@ -19,7 +19,7 @@ export async function getElementBySelectors(
     if (elementBySelectors === null) {
       throw new Error("The element does not exists for the given selectors!");
     } else {
-      // Info.Println("Element is: ", elementBySelectors)
+      console.log("Element is: ", elementBySelectors);
       return elementBySelectors;
     }
   } catch (err) {
