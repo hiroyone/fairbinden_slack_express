@@ -30,7 +30,10 @@ const server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+app.listen(port, () => {
+  console.log("Server running on port %d", port);
+});
+
 server.on("error", onError);
 server.on("listening", onListening);
 
@@ -87,5 +90,6 @@ function onError(error: NodeJS.ErrnoException) {
 function onListening() {
   const addr = server.address();
   const bind = typeof addr === "string" ? "pipe " + addr : "port " + addr!.port; // addr is not null for sure, so ! is added
+  // logger.info("Server running on port %d", port);
   debug("Listening on " + bind);
 }
