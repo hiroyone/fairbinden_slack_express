@@ -2,16 +2,24 @@ import createError from "http-errors";
 import express = require("express");
 import path = require("path");
 import cookieParser = require("cookie-parser");
-import logger = require("morgan");
+import morgan = require("morgan");
 import { fairbnRouter } from "./routes/fairbinden";
 import { HttpException } from "./interfaces/middleware";
+
+// Logging Config
+import pino = require("pino");
+import expressPino = require("express-pino-logger");
+const logger = pino({ level: process.env.LOG_LEVEL || "info" });
+const expressLogger = expressPino({ logger });
 
 export const app = express();
 
 // view engine setup
 // app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
-app.use(logger("tiny"));
+// basic logger
+app.use(morgan("tiny"));
+app.use(expressLogger);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -31,7 +39,7 @@ app.use(function (
   res: express.Response,
   next: express.NextFunction
 ) {
-  console.log("%O", req);
+  logger.info("%O", req);
 
   // set locals, only providing error in development
   res.locals.message = err.message;
