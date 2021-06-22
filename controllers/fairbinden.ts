@@ -1,15 +1,12 @@
-import { MiddlewareFn, Protocol } from "../interfaces/middleware";
-import { getNowToday, checkWeekday, getJapaneseDate } from "../utils/dates";
-import { createDayURL } from "../services/dayURL";
-import {
-  getDayMenuURL,
-  getTitle,
-  getMainText,
-  getImageURL,
-} from "../services/post";
-import { sendSlackMessage } from "../utils/webhook";
 import process from "process";
-import { Action, Attachment, Payload } from "../interfaces/slackWebhook";
+import { buildLunchAction } from "../builder/lunchAction";
+import { buildMenuMessageBlocks } from "../builder/menuMessageBlocks";
+import { MiddlewareFn, Protocol } from "../interfaces/middleware";
+import { Action, Payload } from "../interfaces/slackWebhook";
+import { checkWeekday, getJapaneseDate, getNowToday } from "../utils/dates";
+import { sendSlackMessage } from "../utils/webhook";
+import { getLunchInfo } from "../builder/lunchInfo";
+import { lunchInfo } from "../interfaces/lunchInfo";
 
 /**
  * Post the content info scraped from the website to Slack channel by webhook for a specified date
@@ -19,98 +16,67 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
   res,
   next
 ) => {
-  const { user, content } = req.body;
-
   console.log("Run SendSlack Function");
-  const webHookURL = new URL(process.env.WEB_HOOK_URL as string);
 
-  const fairbinden = { protocol: "https", host: "xn--jvrr89ebqs6yg.tokyo" };
+  const lunchDate = req.body.lunchDate;
+  const webHookURL =
+    req.body.webHookURL || new URL(process.env.WEB_HOOK_URL as string);
+
+  const fairbindenWebsite = {
+    protocol: "https" as Protocol,
+    host: "xn--jvrr89ebqs6yg.tokyo",
+  };
+
   try {
-    // TO DO: Inject a time parameter from Post body
-    // const dateTime = new Date("2021-04-05T11:10+09:00");
-    const dateTime = getNowToday();
+    const dateTime = new Date(lunchDate) || getNowToday();
     const dateJpn = getJapaneseDate(dateTime);
-    const dailyURL = createDayURL(
-      dateTime,
-      fairbinden.protocol as Protocol,
-      fairbinden.host
-    );
     const dateFlag = checkWeekday(dateTime);
 
-    let dailyMenuURL: void | URL | null;
-    if (dateFlag) {
-      dailyMenuURL = await getDayMenuURL(
-        dailyURL,
-        "#archive_post_list > li > div > h3 > a"
-      );
-    } else {
-      throw "Today is not a weekday.";
-    }
+    const {
+      dailyMenuURL,
+      menuMainText,
+      menuTitle,
+      menuImageURL,
+    } = (await getLunchInfo(
+      dateTime,
+      dateFlag,
+      fairbindenWebsite
+    )) as lunchInfo;
 
-    // If daily menu URL is found, get article contents
-    let menuMainText, menuTitle, menuImageURL;
-    if (dailyMenuURL) {
-      menuTitle = await getTitle(dailyMenuURL, "#single_post > h2");
-      menuMainText = await getMainText(
-        dailyMenuURL,
-        "#single_post > div.post_content.clearfix"
-      );
-      menuImageURL = await getImageURL(
-        dailyMenuURL,
-        "#single_post > div.post_image > img"
-      );
-    } else {
-      throw "Daily Menu URL does not exists";
-    }
-
-    const fairbindenLunchACtion: Action = {
-      type: "button",
-      text: "今日のランチ🍚",
-      url: (dailyMenuURL as URL).href,
-      style: "primary",
-    };
+    const fairbindenLunchAction: Action = buildLunchAction(
+      "今日のランチ🍚",
+      (dailyMenuURL as URL).href,
+      "actionId-0",
+      "primary"
+    );
 
     let officeLunchAction: Action;
-    // To do give an env variable
-    const officeLunchURL = process.env.CHANNEL_OFFICE_BEN as string;
     // OfficeLunch is not available on Friday in my company
     if (getNowToday().getDay() <= 4) {
-      officeLunchAction = {
-        type: "button",
-        text: "やっぱり会社の弁当🍱",
-        url: officeLunchURL,
-        style: "danger",
-      };
+      const officeLunchURL = process.env.CHANNEL_OFFICE_BEN as string;
+      officeLunchAction = buildLunchAction(
+        "やっぱり会社の弁当🍱",
+        officeLunchURL,
+        "actionId-1",
+        "danger"
+      );
     } else {
-      // To do suppress this more elegantly
-      officeLunchAction = {
-        type: "",
-        text: "",
-        url: "",
-        style: "",
-      };
+      officeLunchAction = {};
     }
 
-    let attachment: Attachment;
-    if (menuTitle && menuMainText && menuImageURL) {
-      attachment = {
-        // this defines the attachment block, allows for better layout usage
-        color: "#36a64f", // color of the attachments sidebar.
-        fallback: "情報を正しく取れませんでした",
-        pretext: dateJpn + "のランチです！",
-        actions: [fairbindenLunchACtion, officeLunchAction],
-        author_name: "フェアビンデン Express!",
-        author_link: fairbinden.host,
-        title: menuTitle,
-        title_link: dailyMenuURL.href,
-        text: menuMainText,
-        image_url: menuImageURL.href,
-        footer: "税込800円 11:00-14:00",
-        ts: getNowToday().getTime(),
-      };
+    const lunchActions = [fairbindenLunchAction, officeLunchAction];
+    if (dailyMenuURL && menuTitle && menuMainText && menuImageURL) {
+      const fairbidenBlock = buildMenuMessageBlocks(
+        dateJpn,
+        dailyMenuURL,
+        menuTitle,
+        menuMainText,
+        menuImageURL,
+        lunchActions
+      );
 
       const payload: Payload = {
-        attachments: [attachment],
+        blocks: fairbidenBlock,
       };
 
       const payloadJSON = JSON.stringify(payload);

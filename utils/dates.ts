@@ -4,7 +4,7 @@
  */
 export function getNowToday(): Date {
   const now = new Date();
-  console.log("The current time is: ", jpn_now.String());
+  console.log("The current time is: ", now);
   return now;
 }
 

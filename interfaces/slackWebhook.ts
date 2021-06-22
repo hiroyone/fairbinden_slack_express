@@ -4,11 +4,21 @@ export interface Field {
   short: boolean;
 }
 
-export interface Action {
+// To do: Build more accturate type
+export interface Block {
   type: string;
-  text: string;
-  url: string;
-  style: string;
+  text?: { type: string; text?: string; emoji?: boolean };
+  action_id?: string;
+  url?: string;
+  style?: string;
+}
+
+export interface Action {
+  type?: string;
+  text?: { type: string; text: string; emoji: boolean };
+  action_id?: string;
+  url?: string;
+  style?: string;
 }
 
 export interface Attachment {
@@ -41,6 +51,7 @@ export interface Payload {
   text?: string;
   link_names?: string;
   attachments?: Attachment[];
+  blocks?: unknown[];
   unfurl_links?: boolean;
   unfurl_media?: boolean;
   mrkdwn?: boolean;

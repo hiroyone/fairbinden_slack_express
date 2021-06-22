@@ -10,3 +10,8 @@ export interface HttpException extends Error {
 }
 
 export type Protocol = "http" | "https";
+
+export interface Website {
+  protocol: Protocol;
+  host: string;
+}

@@ -38,15 +38,25 @@ WEB_HOOK_URL=https://hooks.slack.com/services/xxxxxx/xxxxx/xxxxxxxxxxxxxxxxxxxxx
 CHANNEL_OFFICE_BEN=https://app.slack.com/client/xxxxxxxxxxxxxxxx
 ```
 
-2. Start the app
+2. Start the app locally, using docker-compose
 
 ```
-npm run build
-npm run start
+docker-compose up
 ```
 
 3. Call the app
 
 ```
-curl -X POST "localhost:8080/fairbinden"
+curl -H "Content-Type: application/json" -X POST -d '{"lunchDate":"2021-04-05T11:10+09:00"}' "localhost:8080/fairbinden"
 ```
+
+## Supported Request Parameters
+
+- lunchDate
+  - desc: date for lunch information
+  - format: date string
+  - example: "2021-04-05T11:10+09:00"
+- webHookURL: URL string
+  - desc: Slack incoming webhook URL
+  - format: URL string
+  - example: "https://hooks.slack.com/services/xxxxxx/xxxxx/xxxxxxxxxxxxxxxxxxxxx"
