@@ -1,5 +1,5 @@
 import { Protocol } from "../interfaces/middleware";
-import { zeroPad } from "../utils/padding";
+import { zeroPad } from "./padding";
 
 /**
  * Returns the daily URL for the specified date

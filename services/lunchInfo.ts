@@ -1,11 +1,11 @@
 import { Protocol, Website } from "../interfaces/middleware";
-import { createDayURL } from "../services/dayURL";
+import { createDayURL } from "../utils/dayURL";
 import {
   getDayMenuURL,
   getImageURL,
   getMainText,
   getTitle,
-} from "../services/post";
+} from "../utils/post";
 import { lunchInfo } from "../interfaces/lunchInfo";
 
 export async function getLunchInfo(
