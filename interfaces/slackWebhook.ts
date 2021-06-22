@@ -4,6 +4,15 @@ export interface Field {
   short: boolean;
 }
 
+// To do: Build more accturate type
+export interface Block {
+  type: string;
+  text?: { type: string; text?: string; emoji?: boolean };
+  action_id?: string;
+  url?: string;
+  style?: string;
+}
+
 export interface Action {
   type?: string;
   text?: { type: string; text: string; emoji: boolean };

@@ -10,6 +10,7 @@ import {
 import { sendSlackMessage } from "../utils/webhook";
 import process from "process";
 import { Action, Payload } from "../interfaces/slackWebhook";
+import { buildMenuMessageBlocks } from "../builder/menuMessageBlocks";
 
 /**
  * Post the content info scraped from the website to Slack channel by webhook for a specified date
@@ -64,7 +65,7 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
       throw "Daily Menu URL does not exists";
     }
 
-    const fairbindenLunchACtion: Action = {
+    const fairbindenLunchAction: Action = {
       type: "button",
       text: {
         type: "plain_text",
@@ -97,61 +98,19 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
       officeLunchAction = {};
     }
 
-    let blocks;
+    const lunchActions = [fairbindenLunchAction, officeLunchAction];
     if (menuTitle && menuMainText && menuImageURL) {
-      blocks = [
-        {
-          type: "header",
-          text: {
-            type: "plain_text",
-            text: "フェアビンデン Express!🍽",
-            emoji: true,
-          },
-        },
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: dateJpn + "のランチです！",
-          },
-        },
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: `<${dailyMenuURL.href}|*${menuTitle}*>`,
-          },
-        },
-        {
-          type: "image",
-          image_url: menuImageURL.href,
-          alt_text: "イカと大根の煮物の画像",
-        },
-        {
-          type: "section",
-          text: {
-            type: "plain_text",
-            text: menuMainText,
-            emoji: true,
-          },
-        },
-        {
-          type: "context",
-          elements: [
-            {
-              type: "mrkdwn",
-              text: "税込800円 11:00-14:00",
-            },
-          ],
-        },
-        {
-          type: "actions",
-          elements: [fairbindenLunchACtion, officeLunchAction],
-        },
-      ];
+      const fairbidenBlock = buildMenuMessageBlocks(
+        dateJpn,
+        dailyMenuURL,
+        menuTitle,
+        menuMainText,
+        menuImageURL,
+        lunchActions
+      );
 
       const payload: Payload = {
-        blocks: blocks,
+        blocks: fairbidenBlock,
       };
 
       const payloadJSON = JSON.stringify(payload);
