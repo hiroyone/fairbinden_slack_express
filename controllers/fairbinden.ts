@@ -19,16 +19,17 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
   res,
   next
 ) => {
-  const { user, content } = req.body;
-
   console.log("Run SendSlack Function");
-  const webHookURL = new URL(process.env.WEB_HOOK_URL as string);
+
+  const lunchDate = req.body.lunchDate;
+  const webHookURL =
+    req.body.webHookURL || new URL(process.env.WEB_HOOK_URL as string);
 
   const fairbinden = { protocol: "https", host: "xn--jvrr89ebqs6yg.tokyo" };
   try {
     // TO DO: Inject a time parameter from Post body
     // const dateTime = new Date("2021-04-05T11:10+09:00");
-    const dateTime = getNowToday();
+    const dateTime = new Date(lunchDate) || getNowToday();
     const dateJpn = getJapaneseDate(dateTime);
     const dailyURL = createDayURL(
       dateTime,
