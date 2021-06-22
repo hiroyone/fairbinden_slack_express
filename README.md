@@ -38,11 +38,10 @@ WEB_HOOK_URL=https://hooks.slack.com/services/xxxxxx/xxxxx/xxxxxxxxxxxxxxxxxxxxx
 CHANNEL_OFFICE_BEN=https://app.slack.com/client/xxxxxxxxxxxxxxxx
 ```
 
-2. Start the app
+2. Start the app locally, using docker-compose
 
 ```
-npm run build
-npm run start
+docker-compose up
 ```
 
 3. Call the app

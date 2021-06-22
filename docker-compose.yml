@@ -1,0 +1,7 @@
+version: "3.9"
+services:
+  fairbinden:
+    build: .
+    image: fairbinden:latest
+    ports:
+      - "8080:8080"
