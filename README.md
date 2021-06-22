@@ -48,5 +48,16 @@ npm run start
 3. Call the app
 
 ```
-curl -X POST "localhost:8080/fairbinden"
+curl -H "Content-Type: application/json" -X POST -d '{"lunchDate":"2021-04-05T11:10+09:00"}' "localhost:8080/fairbinden"
 ```
+
+## Supported Request Parameters
+
+- lunchDate
+  - desc: date for lunch information
+  - format: date string
+  - example: "2021-04-05T11:10+09:00"
+- webHookURL: URL string
+  - desc: Slack incoming webhook URL
+  - format: URL string
+  - example: "https://hooks.slack.com/services/xxxxxx/xxxxx/xxxxxxxxxxxxxxxxxxxxx"
