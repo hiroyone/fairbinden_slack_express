@@ -9,7 +9,7 @@ import {
 } from "../services/post";
 import { sendSlackMessage } from "../utils/webhook";
 import process from "process";
-import { Action, Attachment, Payload } from "../interfaces/slackWebhook";
+import { Action, Payload } from "../interfaces/slackWebhook";
 
 /**
  * Post the content info scraped from the website to Slack channel by webhook for a specified date
@@ -66,8 +66,13 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
 
     const fairbindenLunchACtion: Action = {
       type: "button",
-      text: "今日のランチ🍚",
+      text: {
+        type: "plain_text",
+        text: "今日のランチ🍚",
+        emoji: true,
+      },
       url: (dailyMenuURL as URL).href,
+      action_id: "actionId-0",
       style: "primary",
     };
 
@@ -78,40 +83,75 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
     if (getNowToday().getDay() <= 4) {
       officeLunchAction = {
         type: "button",
-        text: "やっぱり会社の弁当🍱",
+        text: {
+          type: "plain_text",
+          text: "やっぱり会社の弁当🍱",
+          emoji: true,
+        },
+        action_id: "actionId-1",
         url: officeLunchURL,
         style: "danger",
       };
     } else {
       // To do suppress this more elegantly
-      officeLunchAction = {
-        type: "",
-        text: "",
-        url: "",
-        style: "",
-      };
+      officeLunchAction = {};
     }
 
-    let attachment: Attachment;
+    let blocks;
     if (menuTitle && menuMainText && menuImageURL) {
-      attachment = {
-        // this defines the attachment block, allows for better layout usage
-        color: "#36a64f", // color of the attachments sidebar.
-        fallback: "情報を正しく取れませんでした",
-        pretext: dateJpn + "のランチです！",
-        actions: [fairbindenLunchACtion, officeLunchAction],
-        author_name: "フェアビンデン Express!",
-        author_link: fairbinden.host,
-        title: menuTitle,
-        title_link: dailyMenuURL.href,
-        text: menuMainText,
-        image_url: menuImageURL.href,
-        footer: "税込800円 11:00-14:00",
-        ts: getNowToday().getTime(),
-      };
+      blocks = [
+        {
+          type: "header",
+          text: {
+            type: "plain_text",
+            text: "フェアビンデン Express!🍽",
+            emoji: true,
+          },
+        },
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: dateJpn + "のランチです！",
+          },
+        },
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: `<${dailyMenuURL.href}|*${menuTitle}*>`,
+          },
+        },
+        {
+          type: "image",
+          image_url: menuImageURL.href,
+          alt_text: "イカと大根の煮物の画像",
+        },
+        {
+          type: "section",
+          text: {
+            type: "plain_text",
+            text: menuMainText,
+            emoji: true,
+          },
+        },
+        {
+          type: "context",
+          elements: [
+            {
+              type: "mrkdwn",
+              text: "税込800円 11:00-14:00",
+            },
+          ],
+        },
+        {
+          type: "actions",
+          elements: [fairbindenLunchACtion, officeLunchAction],
+        },
+      ];
 
       const payload: Payload = {
-        attachments: [attachment],
+        blocks: blocks,
       };
 
       const payloadJSON = JSON.stringify(payload);

@@ -5,10 +5,11 @@ export interface Field {
 }
 
 export interface Action {
-  type: string;
-  text: string;
-  url: string;
-  style: string;
+  type?: string;
+  text?: { type: string; text: string; emoji: boolean };
+  action_id?: string;
+  url?: string;
+  style?: string;
 }
 
 export interface Attachment {
@@ -41,6 +42,7 @@ export interface Payload {
   text?: string;
   link_names?: string;
   attachments?: Attachment[];
+  blocks?: unknown[];
   unfurl_links?: boolean;
   unfurl_media?: boolean;
   mrkdwn?: boolean;
