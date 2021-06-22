@@ -6,6 +6,7 @@ import { Action, Payload } from "../interfaces/slackWebhook";
 import { checkWeekday, getJapaneseDate, getNowToday } from "../utils/dates";
 import { sendSlackMessage } from "../utils/webhook";
 import { getLunchInfo } from "../builder/lunchInfo";
+import { lunchInfo } from "../interfaces/lunchInfo";
 
 /**
  * Post the content info scraped from the website to Slack channel by webhook for a specified date
@@ -36,7 +37,11 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
       menuMainText,
       menuTitle,
       menuImageURL,
-    } = await getLunchInfo(dateTime, dateFlag, fairbindenWebsite);
+    } = (await getLunchInfo(
+      dateTime,
+      dateFlag,
+      fairbindenWebsite
+    )) as lunchInfo;
 
     const fairbindenLunchAction: Action = buildLunchAction(
       "今日のランチ🍚",
