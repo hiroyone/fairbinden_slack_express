@@ -5,6 +5,7 @@ import { MiddlewareFn, Protocol, Website } from "../interfaces/middleware";
 import { Action, Payload } from "../interfaces/slackWebhook";
 import { checkWeekday, getJapaneseDate, getNowToday } from "../utils/dates";
 import { sendSlackMessage } from "../utils/webhook";
+import { getLunchInfo } from "../builder/lunchInfo";
 import { lunchInfo } from "../interfaces/lunchInfo";
 
 /**
