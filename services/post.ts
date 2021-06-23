@@ -9,18 +9,13 @@ import { getElementBySelectors } from "../utils/parser";
 export async function getDayMenuURL(
   pageURL: URL,
   selectors: string
-): Promise<null | void | URL> {
-  try {
-    const dailyMenuURLEl = await getElementBySelectors(pageURL, selectors);
-    const dailyMenuURLStr =
-      dailyMenuURLEl === undefined ? null : dailyMenuURLEl.getAttribute("href");
-    const dailyMenuURL =
-      dailyMenuURLStr === null ? null : new URL(dailyMenuURLStr);
-    console.log("Main URL is: ", dailyMenuURL);
-    return dailyMenuURL;
-  } catch (err) {
-    console.log(err);
-  }
+): Promise<URL | null> {
+  const dailyMenuURLEl = await getElementBySelectors(pageURL, selectors);
+  const dailyMenuURLStr = dailyMenuURLEl.getAttribute("href");
+  const dailyMenuURL =
+    dailyMenuURLStr === null ? null : new URL(dailyMenuURLStr);
+  console.log("Main URL is: ", dailyMenuURL);
+  return dailyMenuURL;
 }
 
 /**
@@ -32,15 +27,11 @@ export async function getDayMenuURL(
 export async function getTitle(
   pageURL: URL,
   selectors: string
-): Promise<string | null | void> {
-  try {
-    const titleEl = await getElementBySelectors(pageURL, selectors);
-    const title = titleEl === undefined ? null : titleEl.innerHTML;
-    console.log("Title is: ", title);
-    return title;
-  } catch (err) {
-    console.log(err);
-  }
+): Promise<string | null> {
+  const titleEl = await getElementBySelectors(pageURL, selectors);
+  const title = titleEl.innerHTML;
+  console.log("Title is: ", title);
+  return title;
 }
 
 /**
@@ -52,15 +43,11 @@ export async function getTitle(
 export async function getMainText(
   pageURL: URL,
   selectors: string
-): Promise<void | null | string> {
-  try {
-    const mainTextEl = await getElementBySelectors(pageURL, selectors);
-    const mainText = mainTextEl === undefined ? null : mainTextEl.textContent;
-    console.log("Main Text is: ", mainText);
-    return mainText;
-  } catch (err) {
-    console.log(err);
-  }
+): Promise<null | string> {
+  const mainTextEl = await getElementBySelectors(pageURL, selectors);
+  const mainText = mainTextEl.textContent;
+  console.log("Main Text is: ", mainText);
+  return mainText;
 }
 
 /**
@@ -72,16 +59,11 @@ export async function getMainText(
 export async function getImageURL(
   pageURL: URL,
   selectors: string
-): Promise<void | null | URL> {
-  try {
-    const mainImageEl = await getElementBySelectors(pageURL, selectors);
-    const mainImageURLString =
-      mainImageEl === undefined ? null : mainImageEl.getAttribute("src");
-    const mainImageURL =
-      mainImageURLString === null ? null : new URL(mainImageURLString);
-    console.log("Main Image URL is: ", mainImageURL);
-    return mainImageURL;
-  } catch (err) {
-    console.log(err);
-  }
+): Promise<null | URL> {
+  const mainImageEl = await getElementBySelectors(pageURL, selectors);
+  const mainImageURLString = mainImageEl.getAttribute("src");
+  const mainImageURL =
+    mainImageURLString === null ? null : new URL(mainImageURLString);
+  console.log("Main Image URL is: ", mainImageURL);
+  return mainImageURL;
 }

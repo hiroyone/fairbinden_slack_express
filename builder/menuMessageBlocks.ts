@@ -50,7 +50,11 @@ export function buildMenuMessageBlocks(
       elements: [
         {
           type: "mrkdwn",
-          text: "税込800円 11:00-14:00",
+          text: "税込800円",
+        },
+        {
+          type: "mrkdwn",
+          text: "11:00-14:00",
         },
       ],
     },

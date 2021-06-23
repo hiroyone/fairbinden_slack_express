@@ -10,11 +10,6 @@ export async function sendSlackMessage(
   webhookURL: URL,
   messageBody: string
 ): Promise<AxiosResponse<any>> {
-  try {
-    const response = await axios.post(webhookURL.href, messageBody);
-    return response;
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
+  const response = await axios.post(webhookURL.href, messageBody);
+  return response;
 }
