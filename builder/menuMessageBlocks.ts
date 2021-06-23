@@ -3,6 +3,7 @@ import { Action, Block } from "../interfaces/slackWebhook";
 export function buildMenuMessageBlocks(
   date: string,
   dailyMenuURL: URL,
+  header: string,
   menuTitle: string,
   menuMainText: string,
   menuImageURL: URL,
@@ -13,7 +14,7 @@ export function buildMenuMessageBlocks(
       type: "header",
       text: {
         type: "plain_text",
-        text: "フェアビンデン Express!🍽",
+        text: header,
         emoji: true,
       },
     },
@@ -34,7 +35,7 @@ export function buildMenuMessageBlocks(
     {
       type: "image",
       image_url: menuImageURL.href,
-      alt_text: "イカと大根の煮物の画像",
+      alt_text: `${menuTitle}の画像`,
     },
     {
       type: "section",

@@ -1,11 +1,11 @@
 import { Protocol, Website } from "../interfaces/middleware";
-import { createDayURL } from "../utils/dayURL";
+import { createDayURL } from "../services/dayURL";
 import {
   getDayMenuURL,
   getImageURL,
   getMainText,
   getTitle,
-} from "../utils/post";
+} from "../services/post";
 import { lunchInfo } from "../interfaces/lunchInfo";
 
 export async function getLunchInfo(
@@ -46,13 +46,13 @@ export async function getLunchInfo(
       throw "Daily Menu URL does not exists";
     }
 
-    const fairbindenLunchInfo = {
+    const lunchInfo = {
       dailyMenuURL: dailyMenuURL,
       menuMainText: menuMainText,
       menuTitle: menuTitle,
       menuImageURL: menuImageURL,
     };
-    return fairbindenLunchInfo;
+    return lunchInfo;
   } catch (error) {
     console.error(error);
   }

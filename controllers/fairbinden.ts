@@ -1,11 +1,10 @@
 import process from "process";
-import { buildLunchAction } from "../services/lunchAction";
-import { buildMenuMessageBlocks } from "../services/menuMessageBlocks";
+import { buildLunchAction } from "../builder/lunchAction";
+import { buildMenuMessageBlocks } from "../builder/menuMessageBlocks";
 import { MiddlewareFn, Protocol, Website } from "../interfaces/middleware";
 import { Action, Payload } from "../interfaces/slackWebhook";
 import { checkWeekday, getJapaneseDate, getNowToday } from "../utils/dates";
 import { sendSlackMessage } from "../utils/webhook";
-import { getLunchInfo } from "../services/lunchInfo";
 import { lunchInfo } from "../interfaces/lunchInfo";
 
 /**
@@ -26,7 +25,7 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
   };
 
   // Date Vars
-  const dateTime = new Date(req.body.lunchDate;) || getNowToday();
+  const dateTime = new Date(req.body.lunchDate) || getNowToday();
   const dateJpn = getJapaneseDate(dateTime);
   const dateFlag = checkWeekday(dateTime);
 
@@ -68,6 +67,7 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
       const fairbidenBlock = buildMenuMessageBlocks(
         dateJpn,
         dailyMenuURL,
+        "フェアビンデン Express!🍽",
         menuTitle,
         menuMainText,
         menuImageURL,
