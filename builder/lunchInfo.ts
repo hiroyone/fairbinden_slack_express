@@ -11,7 +11,11 @@ import { lunchInfo } from "../interfaces/lunchInfo";
 export async function getLunchInfo(
   dateTime: Date,
   dateFlag: boolean,
-  lunchWebsite: Website
+  lunchWebsite: Website,
+  dayMenuURLSelector: string,
+  menuTitleSelector: string,
+  mainTextSelector: string,
+  mainImageURLSelector: string
 ): Promise<lunchInfo | undefined> {
   try {
     const dailyURL = createDayURL(
@@ -22,10 +26,7 @@ export async function getLunchInfo(
 
     let dailyMenuURL: void | URL | null;
     if (dateFlag) {
-      dailyMenuURL = await getDayMenuURL(
-        dailyURL,
-        "#archive_post_list > li > div > h3 > a"
-      );
+      dailyMenuURL = await getDayMenuURL(dailyURL, dayMenuURLSelector);
     } else {
       throw "Today is not a weekday.";
     }
@@ -33,15 +34,9 @@ export async function getLunchInfo(
     // If daily menu URL is found, get article contents
     let menuMainText, menuTitle, menuImageURL;
     if (dailyMenuURL) {
-      menuTitle = await getTitle(dailyMenuURL, "#single_post > h2");
-      menuMainText = await getMainText(
-        dailyMenuURL,
-        "#single_post > div.post_content.clearfix"
-      );
-      menuImageURL = await getImageURL(
-        dailyMenuURL,
-        "#single_post > div.post_image > img"
-      );
+      menuTitle = await getTitle(dailyMenuURL, menuTitleSelector);
+      menuMainText = await getMainText(dailyMenuURL, mainTextSelector);
+      menuImageURL = await getImageURL(dailyMenuURL, mainImageURLSelector);
     } else {
       throw "Daily Menu URL does not exists";
     }

@@ -30,6 +30,12 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
   const dateJpn = getJapaneseDate(dateTime);
   const dateFlag = checkWeekday(dateTime);
 
+  // Selectors
+  const dayMenuURLSelector = "#archive_post_list > li > div > h3 > a";
+  const menuTitleSelector = "#single_post > h2";
+  const mainTextSelector = "#single_post > div.post_content.clearfix";
+  const mainImageURLSelector = "#single_post > div.post_image > img";
+
   try {
     // Get lunch information based on the target date and website URL
     const {
@@ -40,7 +46,11 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
     } = (await getLunchInfo(
       dateTime,
       dateFlag,
-      fairbindenWebsite
+      fairbindenWebsite,
+      dayMenuURLSelector,
+      menuTitleSelector,
+      mainTextSelector,
+      mainImageURLSelector
     )) as lunchInfo;
 
     const fairbindenLunchAction: Action = buildLunchAction(
