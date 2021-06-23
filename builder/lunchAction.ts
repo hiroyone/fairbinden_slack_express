@@ -10,7 +10,7 @@ export function buildLunchAction(
     type: "button",
     text: {
       type: "plain_text",
-      text: "やっぱり会社の弁当🍱",
+      text: text,
       emoji: true,
     },
     action_id: id,
