@@ -1,4 +1,4 @@
-import { Protocol, Website } from "../interfaces/middleware";
+import { Website } from "../interfaces/middleware";
 import { createDayURL } from "../services/dayURL";
 import {
   getDayMenuURL,
@@ -19,7 +19,7 @@ export async function getLunchInfo(
 ): Promise<lunchInfo | void> {
   const dailyURL = createDayURL(
     dateTime,
-    lunchWebsite.protocol as Protocol,
+    lunchWebsite.protocol,
     lunchWebsite.host
   );
 
