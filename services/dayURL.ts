@@ -3,9 +3,6 @@ import { zeroPad } from "../utils/padding";
 
 /**
  * Returns the daily URL for the specified date
- * @example
- * returns new URL("https://xn--jvrr89ebqs6yg.tokyo/2021/04/19/")
- * getDailyURL(dateTime, "https", "xn--jvrr89ebqs6yg.tokyo");
  */
 export function createDayURL(
   datetime: Date,
