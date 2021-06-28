@@ -26,7 +26,9 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
   };
 
   // Date Vars
-  const dateTime = new Date(req.body.lunchDate) || getNowToday();
+  const dateTime = req.body.lunchDate
+    ? new Date(req.body.lunchDate)
+    : getNowToday();
   const dateJpn = getJapaneseDate(dateTime);
   const dateFlag = checkWeekday(dateTime);
 
