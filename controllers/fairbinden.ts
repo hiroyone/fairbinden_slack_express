@@ -61,20 +61,8 @@ export const sendFairbindenLunchMenuToSlack: MiddlewareFn = async (
       "actionId-0",
       "primary"
     );
-    let officeLunchAction: Action;
-    // OfficeLunch is not available on Friday in my company
-    if (getNowToday().getDay() <= 4) {
-      const officeLunchURL = process.env.CHANNEL_OFFICE_BEN as string;
-      officeLunchAction = buildLunchAction(
-        "やっぱり会社の弁当🍱",
-        officeLunchURL,
-        "actionId-1",
-        "danger"
-      );
-    } else {
-      officeLunchAction = {};
-    }
-    const lunchActions = [fairbindenLunchAction, officeLunchAction];
+
+    const lunchActions = [fairbindenLunchAction];
 
     if (dailyMenuURL && menuTitle && menuMainText && menuImageURL) {
       const fairbidenBlock = buildMenuMessageBlocks(
